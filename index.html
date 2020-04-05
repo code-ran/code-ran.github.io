@@ -64,10 +64,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-MyEclipse中添加JDK与绑定Tomcat遇到的问题及解决方法" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-（4）windows-10必装的五款神器" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/04/05/MyEclipse%E4%B8%AD%E6%B7%BB%E5%8A%A0JDK%E4%B8%8E%E7%BB%91%E5%AE%9ATomcat%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" class="article-date">
-  <time datetime="2020-04-05T14:49:00.000Z" itemprop="datePublished">2020-04-05</time>
+    <a href="/2020/04/05/%EF%BC%884%EF%BC%89windows-10%E5%BF%85%E8%A3%85%E7%9A%84%E4%BA%94%E6%AC%BE%E7%A5%9E%E5%99%A8/" class="article-date">
+  <time datetime="2020-04-05T15:03:06.000Z" itemprop="datePublished">2020-04-05</time>
 </a>
     
   </div>
@@ -78,7 +78,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/05/MyEclipse%E4%B8%AD%E6%B7%BB%E5%8A%A0JDK%E4%B8%8E%E7%BB%91%E5%AE%9ATomcat%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">MyEclipse中添加JDK与绑定Tomcat遇到的问题及解决方法</a>
+      <a class="article-title" href="/2020/04/05/%EF%BC%884%EF%BC%89windows-10%E5%BF%85%E8%A3%85%E7%9A%84%E4%BA%94%E6%AC%BE%E7%A5%9E%E5%99%A8/">（4）windows 10必装的五款神器</a>
     </h1>
   
 
@@ -86,13 +86,59 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="myeclipse2017JDK的添加和Tomcat的绑定"><a href="#myeclipse2017JDK的添加和Tomcat的绑定" class="headerlink" title="myeclipse2017JDK的添加和Tomcat的绑定"></a>myeclipse2017JDK的添加和Tomcat的绑定</h2><h2 id="1、在MyEclipse里绑定JDK1-8步骤："><a href="#1、在MyEclipse里绑定JDK1-8步骤：" class="headerlink" title="1、在MyEclipse里绑定JDK1.8步骤："></a>1、在MyEclipse里绑定JDK1.8步骤：</h2><p><strong>（1）点击Windows → preference→JAVA→Installed JREs，点击add ，选择JDK的安装路径，然后勾选上就行了。</strong><br><img src="https://img-blog.csdnimg.cn/2020040111194375.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>（2）设置JDK版本<br>点击Windows → preference → Java →Compiler<br>然后选择相应的版本就行。</strong><br><img src="https://img-blog.csdnimg.cn/2020040111203215.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>2、添加Tomcat<br> （1）点击Windows → preference →server—&gt;<br>Runtime environment—&gt;add—&gt;选择Tomcat的安装路径。找到server的窗口，然后右键，new，server，添加Tomcat的版本</strong><br><img src="https://img-blog.csdnimg.cn/20200401112136589.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>3、遇到的问题及解决方法：<br>        （1）因为MyEclipse只带的有一个服务器也是为8080端口的，当我们发布web项目时可能会出现端口占用的情况。<br> 解决方法：修改我们添加的Tomcat端口；<br>找到tomcat安装目录，打开conf文件夹；</strong><br><img src="https://img-blog.csdnimg.cn/20200401112236389.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>找到server.xml文件，然后打开</strong><br><img src="https://img-blog.csdnimg.cn/202004011124200.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>  <strong>然后将8080改为8088保存即可。</strong><br>  <img src="https://img-blog.csdnimg.cn/20200401112522289.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>  <strong>然后我们在浏览器里访问时需要输：<a href="http://localhost:8088/项目路径" target="_blank" rel="noopener">http://localhost:8088/项目路径</a><br>（2）Tomcat服务器不支持、不兼容的问题。</strong><br><img src="https://img-blog.csdnimg.cn/2020040111272978.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>//The server does not support version 3.1 of the JEE Web module specification.<br>解决方法：打开项目根目录下.settings的文件夹，该文件夹下有一个org.eclipse.wst.common.project.facet.core.xml文件，内容如下：</strong><br><img src="https://img-blog.csdnimg.cn/20200401112806128.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200401112818376.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200401112830642.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200401112845978.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>然后关闭MyEclipse，重新打开。重新运行程序，发现错误没了。<br>（3）注意;如果项目发布后有乱码，要将如下格式改为：utf-8</strong><br><img src="https://img-blog.csdnimg.cn/20200401113058899.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200401113126503.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>然后在浏览器里输入：<a href="http://localhost:8088/work1" target="_blank" rel="noopener">http://localhost:8088/work1</a><br>即可访问项目中编辑的页面。</strong><br>  <img src="https://img-blog.csdnimg.cn/20200401113211196.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p><a href="https://blog.csdn.net/code_ran/article/details/105222979" target="_blank" rel="noopener">JDK与Tomcat的安装与配置</a></p>
+        <h2 id="​Windows10软件推荐"><a href="#​Windows10软件推荐" class="headerlink" title="​Windows10软件推荐"></a>​Windows10软件推荐</h2><p>@author:code-ran</p>
+<h2 id="（1）火绒安全软件-🤞"><a href="#（1）火绒安全软件-🤞" class="headerlink" title="（1）火绒安全软件 🤞"></a>（1）火绒安全软件 🤞</h2><p>  <a href="https://www.huorong.cn/" target="_blank" rel="noopener">官网地址</a><br>           <strong>介绍：<br>             这是一款Windows下的安全杀毒软件，但是它的功能却不仅限于杀毒和保护系统安全。最让用   户称赞的地方是它的：弹窗拦截的功能以及开机自启动的自定义管理。也许你的电脑开机很慢，而且总是有许多烦人的弹窗广告。那么火绒这款软件，一定是你不二选择。有了它，你将不用再忍受弹窗广告的痛苦。</strong></p>
+<h2 id="（2）bandzip-👍"><a href="#（2）bandzip-👍" class="headerlink" title="（2）bandzip 👍"></a>（2）bandzip 👍</h2><p><a href="http://www.bandizip.com/" target="_blank" rel="noopener">官网地址</a><br>         <strong>介绍：<br>           这是一款韩国发明的解压缩软件，解压和压缩的速度非常快。而且还是免费、清亮、无广告的，实在是很良心。</strong></p>
+<h2 id="（3）potplayer视频播放器❤"><a href="#（3）potplayer视频播放器❤" class="headerlink" title="（3）potplayer视频播放器❤"></a>（3）potplayer视频播放器❤</h2><p><a href="%28https://potplayer.en.softonic.com/">官网地址</a><br>        <strong>这款视频播放神器几乎支持所有格式的视频，而且还有超过4倍速的设置，以及它强大的硬件解码技术，一流的补帧技术，而且里面还有很多个性化的设置。并且免费、无广告。如果你遇到一个视频无法解码播放，那你可以用它试试，相信它绝对不会让你失望的。</strong></p>
+<h2 id="（4）天若OCR😊"><a href="#（4）天若OCR😊" class="headerlink" title="（4）天若OCR😊"></a>（4）天若OCR😊</h2><p><a href="https://tianruoocr.cn/" target="_blank" rel="noopener">官网地址</a><br>      <strong>你还在为提取图片中的文字而烦恼？你是否遇到过百度文库里的文字无法复制的情况。或者图片中的公式无法写出来的情况。所有的这些问题，天若OCR都能帮你轻松搞定，它能精确的识别图片、视频、PDF、中的文字进行提取，你可以轻松的复制。获取你想获取的任何界面的内容。而且它还支持公式识别，这一点做得真的很不错。</strong></p>
+<h2 id="（5）bandicam-😁"><a href="#（5）bandicam-😁" class="headerlink" title="（5）bandicam 😁"></a>（5）bandicam 😁</h2><p><a href="https://www.bandicam.cn/" target="_blank" rel="noopener">官网地址</a><br>    <strong>一款致力于高清录屏的软件，你可以设置导出的视频的清晰度。每次录屏最长免费十分钟，😂十分钟后自动结束录屏。若想无线录屏升级到VIP即可，个人觉得十分钟已经够用。<br>           上面的所有软件我都会放在编程小牛的公众号里，回复Windows10 五款高效软件即可获取下载链接，大家也可以到上面给的官网链接去下载。</strong></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://code-ran.github.io/2020/04/05/MyEclipse%E4%B8%AD%E6%B7%BB%E5%8A%A0JDK%E4%B8%8E%E7%BB%91%E5%AE%9ATomcat%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" data-id="ck8n5vrfd0000fggyclcdf0ij" class="article-share-link">Share</a>
+      <a data-url="https://code-ran.github.io/2020/04/05/%EF%BC%884%EF%BC%89windows-10%E5%BF%85%E8%A3%85%E7%9A%84%E4%BA%94%E6%AC%BE%E7%A5%9E%E5%99%A8/" data-id="ck8n6diaz0001ukgyght2honr" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-（3）在MyEclipse2017里查看JDK的源码" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/05/%EF%BC%883%EF%BC%89%E5%9C%A8MyEclipse2017%E9%87%8C%E6%9F%A5%E7%9C%8BJDK%E7%9A%84%E6%BA%90%E7%A0%81/" class="article-date">
+  <time datetime="2020-04-05T15:01:00.000Z" itemprop="datePublished">2020-04-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/05/%EF%BC%883%EF%BC%89%E5%9C%A8MyEclipse2017%E9%87%8C%E6%9F%A5%E7%9C%8BJDK%E7%9A%84%E6%BA%90%E7%A0%81/">（3）在MyEclipse2017里查看JDK的源码</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="MyEclipse2017里查看JDK源码方法。"><a href="#MyEclipse2017里查看JDK源码方法。" class="headerlink" title="MyEclipse2017里查看JDK源码方法。"></a>MyEclipse2017里查看JDK源码方法。</h2><h2 id="具体步骤如下："><a href="#具体步骤如下：" class="headerlink" title="具体步骤如下："></a>具体步骤如下：</h2><pre><code>**1、打开MyEclipse2017，点击左上角的Window里的            
+      preferences，然后找到java下的Installed JRES，
+      然后选中我们添加的JDK，点击edit**
+
+ **2、选中c:\program files\java\jdk1.8.0_131\jre\lib\rt.jar**
+          然后点击finish确定即可。**</code></pre><p><img src="https://img-blog.csdnimg.cn/20200402152506728.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br> <strong>3、检查我们是否已经将JDK源码添加进MyEclipse2017编辑器里。<br>        方法一：<br>        选中要查看的函数方法：右键—&gt;Open Declaration</strong>   <img src="https://img-blog.csdnimg.cn/20200402153205626.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>        <strong>然后即可进入到函数内部，如下图所示：</strong><br>        <img src="https://img-blog.csdnimg.cn/20200402153433849.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>        <strong>方法二：<br>             选中要查看的函数方法，按键盘上的快捷键F3，即可进入函数内部，查看实现方法，及JDK的源码。</strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://code-ran.github.io/2020/04/05/%EF%BC%883%EF%BC%89%E5%9C%A8MyEclipse2017%E9%87%8C%E6%9F%A5%E7%9C%8BJDK%E7%9A%84%E6%BA%90%E7%A0%81/" data-id="ck8n6bvug0000ukgy5psdb2y5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -105,7 +151,7 @@
     <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/04/05/hello-world/" class="article-date">
-  <time datetime="2020-04-05T11:42:02.732Z" itemprop="datePublished">2020-04-05</time>
+  <time datetime="2020-04-05T15:00:44.000Z" itemprop="datePublished">2020-04-05</time>
 </a>
     
   </div>
@@ -116,7 +162,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/05/hello-world/">网站搭建好写的第一篇博客！</a>
+      <a class="article-title" href="/2020/04/05/hello-world/">（2）网站搭建好写的第一篇博客！</a>
     </h1>
   
 
@@ -140,6 +186,44 @@
     </div>
     <footer class="article-footer">
       <a data-url="https://code-ran.github.io/2020/04/05/hello-world/" data-id="ck8mzdzeb0000pkgy7i134udt" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-MyEclipse中添加JDK与绑定Tomcat遇到的问题及解决方法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/05/MyEclipse%E4%B8%AD%E6%B7%BB%E5%8A%A0JDK%E4%B8%8E%E7%BB%91%E5%AE%9ATomcat%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" class="article-date">
+  <time datetime="2020-04-05T14:49:00.000Z" itemprop="datePublished">2020-04-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/05/MyEclipse%E4%B8%AD%E6%B7%BB%E5%8A%A0JDK%E4%B8%8E%E7%BB%91%E5%AE%9ATomcat%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">（1）MyEclipse中添加JDK与绑定Tomcat遇到的问题及解决方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="myeclipse2017JDK的添加和Tomcat的绑定"><a href="#myeclipse2017JDK的添加和Tomcat的绑定" class="headerlink" title="myeclipse2017JDK的添加和Tomcat的绑定"></a>myeclipse2017JDK的添加和Tomcat的绑定</h2><h2 id="1、在MyEclipse里绑定JDK1-8步骤："><a href="#1、在MyEclipse里绑定JDK1-8步骤：" class="headerlink" title="1、在MyEclipse里绑定JDK1.8步骤："></a>1、在MyEclipse里绑定JDK1.8步骤：</h2><p><strong>（1）点击Windows → preference→JAVA→Installed JREs，点击add ，选择JDK的安装路径，然后勾选上就行了。</strong><br><img src="https://img-blog.csdnimg.cn/2020040111194375.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>（2）设置JDK版本<br>点击Windows → preference → Java →Compiler<br>然后选择相应的版本就行。</strong><br><img src="https://img-blog.csdnimg.cn/2020040111203215.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>2、添加Tomcat<br> （1）点击Windows → preference →server—&gt;<br>Runtime environment—&gt;add—&gt;选择Tomcat的安装路径。找到server的窗口，然后右键，new，server，添加Tomcat的版本</strong><br><img src="https://img-blog.csdnimg.cn/20200401112136589.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>3、遇到的问题及解决方法：<br>        （1）因为MyEclipse只带的有一个服务器也是为8080端口的，当我们发布web项目时可能会出现端口占用的情况。<br> 解决方法：修改我们添加的Tomcat端口；<br>找到tomcat安装目录，打开conf文件夹；</strong><br><img src="https://img-blog.csdnimg.cn/20200401112236389.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>找到server.xml文件，然后打开</strong><br><img src="https://img-blog.csdnimg.cn/202004011124200.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>  <strong>然后将8080改为8088保存即可。</strong><br>  <img src="https://img-blog.csdnimg.cn/20200401112522289.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>  <strong>然后我们在浏览器里访问时需要输：<a href="http://localhost:8088/项目路径" target="_blank" rel="noopener">http://localhost:8088/项目路径</a><br>（2）Tomcat服务器不支持、不兼容的问题。</strong><br><img src="https://img-blog.csdnimg.cn/2020040111272978.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>//The server does not support version 3.1 of the JEE Web module specification.<br>解决方法：打开项目根目录下.settings的文件夹，该文件夹下有一个org.eclipse.wst.common.project.facet.core.xml文件，内容如下：</strong><br><img src="https://img-blog.csdnimg.cn/20200401112806128.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200401112818376.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200401112830642.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200401112845978.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>然后关闭MyEclipse，重新打开。重新运行程序，发现错误没了。<br>（3）注意;如果项目发布后有乱码，要将如下格式改为：utf-8</strong><br><img src="https://img-blog.csdnimg.cn/20200401113058899.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200401113126503.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>然后在浏览器里输入：<a href="http://localhost:8088/work1" target="_blank" rel="noopener">http://localhost:8088/work1</a><br>即可访问项目中编辑的页面。</strong><br>  <img src="https://img-blog.csdnimg.cn/20200401113211196.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><a href="https://blog.csdn.net/code_ran/article/details/105222979" target="_blank" rel="noopener">JDK与Tomcat的安装与配置</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://code-ran.github.io/2020/04/05/MyEclipse%E4%B8%AD%E6%B7%BB%E5%8A%A0JDK%E4%B8%8E%E7%BB%91%E5%AE%9ATomcat%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" data-id="ck8n5vrfd0000fggyclcdf0ij" class="article-share-link">Share</a>
       
       
     </footer>
@@ -180,11 +264,19 @@
       <ul>
         
           <li>
-            <a href="/2020/04/05/MyEclipse%E4%B8%AD%E6%B7%BB%E5%8A%A0JDK%E4%B8%8E%E7%BB%91%E5%AE%9ATomcat%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">MyEclipse中添加JDK与绑定Tomcat遇到的问题及解决方法</a>
+            <a href="/2020/04/05/%EF%BC%884%EF%BC%89windows-10%E5%BF%85%E8%A3%85%E7%9A%84%E4%BA%94%E6%AC%BE%E7%A5%9E%E5%99%A8/">（4）windows 10必装的五款神器</a>
           </li>
         
           <li>
-            <a href="/2020/04/05/hello-world/">网站搭建好写的第一篇博客！</a>
+            <a href="/2020/04/05/%EF%BC%883%EF%BC%89%E5%9C%A8MyEclipse2017%E9%87%8C%E6%9F%A5%E7%9C%8BJDK%E7%9A%84%E6%BA%90%E7%A0%81/">（3）在MyEclipse2017里查看JDK的源码</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/05/hello-world/">（2）网站搭建好写的第一篇博客！</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/05/MyEclipse%E4%B8%AD%E6%B7%BB%E5%8A%A0JDK%E4%B8%8E%E7%BB%91%E5%AE%9ATomcat%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">（1）MyEclipse中添加JDK与绑定Tomcat遇到的问题及解决方法</a>
           </li>
         
       </ul>
