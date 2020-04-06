@@ -8,12 +8,12 @@
   <link rel="dns-prefetch" href="https://code-ran.github.io">
   <title>（1）MyEclipse中添加JDK与绑定Tomcat遇到的问题及解决方法 | 冉思碧的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="myeclipse2017JDK的添加和Tomcat的绑定1、在MyEclipse里绑定JDK1.8步骤：（1）点击Windows → preference→JAVA→Installed JREs，点击add ，选择JDK的安装路径，然后勾选上就行了。（2）设置JDK版本点击Windows → preference → Java →Compiler然后选择相应的版本就行。2、添加Tomcat （1">
+  <meta name="description" content="@code-ran myeclipse2017JDK的添加和Tomcat的绑定">
 <meta property="og:type" content="article">
 <meta property="og:title" content="（1）MyEclipse中添加JDK与绑定Tomcat遇到的问题及解决方法">
 <meta property="og:url" content="https://code-ran.github.io/2020/04/05/MyEclipse%E4%B8%AD%E6%B7%BB%E5%8A%A0JDK%E4%B8%8E%E7%BB%91%E5%AE%9ATomcat%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/index.html">
 <meta property="og:site_name" content="冉思碧的博客">
-<meta property="og:description" content="myeclipse2017JDK的添加和Tomcat的绑定1、在MyEclipse里绑定JDK1.8步骤：（1）点击Windows → preference→JAVA→Installed JREs，点击add ，选择JDK的安装路径，然后勾选上就行了。（2）设置JDK版本点击Windows → preference → Java →Compiler然后选择相应的版本就行。2、添加Tomcat （1">
+<meta property="og:description" content="@code-ran myeclipse2017JDK的添加和Tomcat的绑定">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/2020040111194375.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/2020040111203215.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70">
@@ -30,15 +30,15 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200401113126503.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200401113211196.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70">
 <meta property="article:published_time" content="2020-04-05T14:49:00.000Z">
-<meta property="article:modified_time" content="2020-04-05T15:00:32.780Z">
-<meta property="article:author" content="ransibi">
+<meta property="article:modified_time" content="2020-04-06T17:28:22.724Z">
+<meta property="article:author" content="冉思碧">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/2020040111194375.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70">
   
     <link rel="alternative" href="/atom.xml" title="冉思碧的博客" type="application/atom+xml">
   
   
-    <link rel="icon" href="/favicon.png">
+    <link rel="icon" href="/assets/20170410095843_SEvMy.thumb.700_0.jpeg">
   
   <link rel="stylesheet" type="text/css" href="/./main.0cf68a.css">
   <style type="text/css">
@@ -62,10 +62,10 @@
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			<img src="" class="js-avatar">
+			<img src="/assets/IMG_20190505_215719.JPG" class="js-avatar">
 		</a>
 		<hgroup>
-		  <h1 class="header-author"><a href="/">ransibi</a></h1>
+		  <h1 class="header-author"><a href="/">冉思碧</a></h1>
 		</hgroup>
 		
 
@@ -75,6 +75,8 @@
 				<li><a href="/">主页</a></li>
 	        
 				<li><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+	        
+				<li><a href="/archives/index.html">归档</a></li>
 	        
 			</ul>
 		</nav>
@@ -96,13 +98,11 @@
 		<nav class="header-nav">
 			<div class="social">
 				
-					<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
+					<a class="qq" target="_blank" href="/assets/qrcode_1586190944497.jpg" title="qq"><i class="icon-qq"></i></a>
 		        
-					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
+					<a class="weixin" target="_blank" href="/assets/mmqrcode1586190970899.png" title="weixin"><i class="icon-weixin"></i></a>
 		        
-					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-		        
-					<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+					<a class="mail" target="_blank" href="mailto:1123826874@qq.com" title="mail"><i class="icon-mail"></i></a>
 		        
 			</div>
 		</nav>
@@ -120,13 +120,15 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img src="" class="js-avatar">
+				<img src="/assets/IMG_20190505_215719.JPG" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">ransibi</h1>
+			  <h1 class="header-author js-header-author">冉思碧</h1>
 			</hgroup>
 			
 			
+			
+				
 			
 				
 			
@@ -137,24 +139,24 @@
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
+						<a class="qq" target="_blank" href="/assets/qrcode_1586190944497.jpg" title="qq"><i class="icon-qq"></i></a>
 			        
-						<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
+						<a class="weixin" target="_blank" href="/assets/mmqrcode1586190970899.png" title="weixin"><i class="icon-weixin"></i></a>
 			        
-						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-			        
-						<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+						<a class="mail" target="_blank" href="mailto:1123826874@qq.com" title="mail"><i class="icon-mail"></i></a>
 			        
 				</div>
 			</nav>
 
 			<nav class="header-menu js-header-menu">
-				<ul style="width: 50%">
+				<ul style="width: 70%">
 				
 				
-					<li style="width: 50%"><a href="/">主页</a></li>
+					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
 		        
-					<li style="width: 50%"><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+					<li style="width: 33.333333333333336%"><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/archives/index.html">归档</a></li>
 		        
 				</ul>
 			</nav>
@@ -189,7 +191,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="myeclipse2017JDK的添加和Tomcat的绑定"><a href="#myeclipse2017JDK的添加和Tomcat的绑定" class="headerlink" title="myeclipse2017JDK的添加和Tomcat的绑定"></a>myeclipse2017JDK的添加和Tomcat的绑定</h2><h2 id="1、在MyEclipse里绑定JDK1-8步骤："><a href="#1、在MyEclipse里绑定JDK1-8步骤：" class="headerlink" title="1、在MyEclipse里绑定JDK1.8步骤："></a>1、在MyEclipse里绑定JDK1.8步骤：</h2><p><strong>（1）点击Windows → preference→JAVA→Installed JREs，点击add ，选择JDK的安装路径，然后勾选上就行了。</strong><br><img src="https://img-blog.csdnimg.cn/2020040111194375.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>（2）设置JDK版本<br>点击Windows → preference → Java →Compiler<br>然后选择相应的版本就行。</strong><br><img src="https://img-blog.csdnimg.cn/2020040111203215.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>2、添加Tomcat<br> （1）点击Windows → preference →server—&gt;<br>Runtime environment—&gt;add—&gt;选择Tomcat的安装路径。找到server的窗口，然后右键，new，server，添加Tomcat的版本</strong><br><img src="https://img-blog.csdnimg.cn/20200401112136589.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>3、遇到的问题及解决方法：<br>        （1）因为MyEclipse只带的有一个服务器也是为8080端口的，当我们发布web项目时可能会出现端口占用的情况。<br> 解决方法：修改我们添加的Tomcat端口；<br>找到tomcat安装目录，打开conf文件夹；</strong><br><img src="https://img-blog.csdnimg.cn/20200401112236389.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>找到server.xml文件，然后打开</strong><br><img src="https://img-blog.csdnimg.cn/202004011124200.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>  <strong>然后将8080改为8088保存即可。</strong><br>  <img src="https://img-blog.csdnimg.cn/20200401112522289.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>  <strong>然后我们在浏览器里访问时需要输：<a href="http://localhost:8088/项目路径" target="_blank" rel="noopener">http://localhost:8088/项目路径</a><br>（2）Tomcat服务器不支持、不兼容的问题。</strong><br><img src="https://img-blog.csdnimg.cn/2020040111272978.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>//The server does not support version 3.1 of the JEE Web module specification.<br>解决方法：打开项目根目录下.settings的文件夹，该文件夹下有一个org.eclipse.wst.common.project.facet.core.xml文件，内容如下：</strong><br><img src="https://img-blog.csdnimg.cn/20200401112806128.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200401112818376.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200401112830642.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200401112845978.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>然后关闭MyEclipse，重新打开。重新运行程序，发现错误没了。<br>（3）注意;如果项目发布后有乱码，要将如下格式改为：utf-8</strong><br><img src="https://img-blog.csdnimg.cn/20200401113058899.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200401113126503.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>然后在浏览器里输入：<a href="http://localhost:8088/work1" target="_blank" rel="noopener">http://localhost:8088/work1</a><br>即可访问项目中编辑的页面。</strong><br>  <img src="https://img-blog.csdnimg.cn/20200401113211196.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+        <p>@code-ran</p>
+<h1 id="myeclipse2017JDK的添加和Tomcat的绑定"><a href="#myeclipse2017JDK的添加和Tomcat的绑定" class="headerlink" title="myeclipse2017JDK的添加和Tomcat的绑定"></a>myeclipse2017JDK的添加和Tomcat的绑定</h1><a id="more"></a>
+<h2 id="1、在MyEclipse里绑定JDK1-8步骤："><a href="#1、在MyEclipse里绑定JDK1-8步骤：" class="headerlink" title="1、在MyEclipse里绑定JDK1.8步骤："></a>1、在MyEclipse里绑定JDK1.8步骤：</h2><p><strong>（1）点击Windows → preference→JAVA→Installed JREs，点击add ，选择JDK的安装路径，然后勾选上就行了。</strong><br><img src="https://img-blog.csdnimg.cn/2020040111194375.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>（2）设置JDK版本<br>点击Windows → preference → Java →Compiler<br>然后选择相应的版本就行。</strong><br><img src="https://img-blog.csdnimg.cn/2020040111203215.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>2、添加Tomcat<br> （1）点击Windows → preference →server—&gt;<br>Runtime environment—&gt;add—&gt;选择Tomcat的安装路径。找到server的窗口，然后右键，new，server，添加Tomcat的版本</strong><br><img src="https://img-blog.csdnimg.cn/20200401112136589.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>3、遇到的问题及解决方法：<br>        （1）因为MyEclipse只带的有一个服务器也是为8080端口的，当我们发布web项目时可能会出现端口占用的情况。<br> 解决方法：修改我们添加的Tomcat端口；<br>找到tomcat安装目录，打开conf文件夹；</strong><br><img src="https://img-blog.csdnimg.cn/20200401112236389.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>找到server.xml文件，然后打开</strong><br><img src="https://img-blog.csdnimg.cn/202004011124200.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>  <strong>然后将8080改为8088保存即可。</strong><br>  <img src="https://img-blog.csdnimg.cn/20200401112522289.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>  <strong>然后我们在浏览器里访问时需要输：<a href="http://localhost:8088/项目路径" target="_blank" rel="noopener">http://localhost:8088/项目路径</a><br>（2）Tomcat服务器不支持、不兼容的问题。</strong><br><img src="https://img-blog.csdnimg.cn/2020040111272978.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>//The server does not support version 3.1 of the JEE Web module specification.<br>解决方法：打开项目根目录下.settings的文件夹，该文件夹下有一个org.eclipse.wst.common.project.facet.core.xml文件，内容如下：</strong><br><img src="https://img-blog.csdnimg.cn/20200401112806128.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200401112818376.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200401112830642.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200401112845978.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>然后关闭MyEclipse，重新打开。重新运行程序，发现错误没了。<br>（3）注意;如果项目发布后有乱码，要将如下格式改为：utf-8</strong><br><img src="https://img-blog.csdnimg.cn/20200401113058899.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200401113126503.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>然后在浏览器里输入：<a href="http://localhost:8088/work1" target="_blank" rel="noopener">http://localhost:8088/work1</a><br>即可访问项目中编辑的页面。</strong><br>  <img src="https://img-blog.csdnimg.cn/20200401113211196.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p><a href="https://blog.csdn.net/code_ran/article/details/105222979" target="_blank" rel="noopener">JDK与Tomcat的安装与配置</a></p>
 
       
@@ -207,6 +211,16 @@
                   <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
                   <div class="reward-box">
                     
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/1586191622.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/mm_facetoface_collect_qrcode_1586191765026.png">
+                      <span class="reward-type">微信</span>
+                    </div>
                     
                   </div>
                 </span>
@@ -288,7 +302,7 @@
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          （2）网站搭建好写的第一篇博客！
+          （2）JDK与Tomcat的安装及配置
         
       </div>
     </a>
@@ -309,6 +323,19 @@
             </div>
         </div>
         
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#myeclipse2017JDK的添加和Tomcat的绑定"><span class="toc-number">1.</span> <span class="toc-text">myeclipse2017JDK的添加和Tomcat的绑定</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、在MyEclipse里绑定JDK1-8步骤："><span class="toc-number">1.1.</span> <span class="toc-text">1、在MyEclipse里绑定JDK1.8步骤：</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
         
     </div>
 </aside>
@@ -333,7 +360,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 ransibi
+    		&copy; 2020 冉思碧
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -464,27 +491,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
         <ul class="search-ul">
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
+              <a href="/www.baidu.com" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>百度</a>
             </li>
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接2</a>
+              <a href="/www.taobao.com" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>淘宝</a>
             </li>
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接3</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接4</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接5</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接6</a>
+              <a href="https://www.csdn.net/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>CSDN</a>
             </li>
           
         </ul>
@@ -495,7 +510,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;只做了一点微小的工作&lt;br&gt;谢谢大家</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">Hello&lt;br&gt;&lt;br&gt;欢迎访问交流&lt;br&gt;一起变得更好吧！</div>
   	  	
     	</section>
     

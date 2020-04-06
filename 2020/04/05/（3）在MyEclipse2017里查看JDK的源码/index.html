@@ -8,26 +8,26 @@
   <link rel="dns-prefetch" href="https://code-ran.github.io">
   <title>（3）在MyEclipse2017里查看JDK的源码 | 冉思碧的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="MyEclipse2017里查看JDK源码方法。具体步骤如下：**1、打开MyEclipse2017，点击左上角的Window里的                   preferences，然后找到java下的Installed JRES，       然后选中我们添加的JDK，点击edit**   **2、选中c:\program files\java\jdk1.8.0_131\jre\lib">
+  <meta name="description" content="@code-ran MyEclipse2017里查看JDK源码方法。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="（3）在MyEclipse2017里查看JDK的源码">
 <meta property="og:url" content="https://code-ran.github.io/2020/04/05/%EF%BC%883%EF%BC%89%E5%9C%A8MyEclipse2017%E9%87%8C%E6%9F%A5%E7%9C%8BJDK%E7%9A%84%E6%BA%90%E7%A0%81/index.html">
 <meta property="og:site_name" content="冉思碧的博客">
-<meta property="og:description" content="MyEclipse2017里查看JDK源码方法。具体步骤如下：**1、打开MyEclipse2017，点击左上角的Window里的                   preferences，然后找到java下的Installed JRES，       然后选中我们添加的JDK，点击edit**   **2、选中c:\program files\java\jdk1.8.0_131\jre\lib">
+<meta property="og:description" content="@code-ran MyEclipse2017里查看JDK源码方法。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200402152506728.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200402153205626.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200402153433849.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70">
 <meta property="article:published_time" content="2020-04-05T15:01:00.000Z">
-<meta property="article:modified_time" content="2020-04-05T15:02:10.587Z">
-<meta property="article:author" content="ransibi">
+<meta property="article:modified_time" content="2020-04-06T17:28:18.852Z">
+<meta property="article:author" content="冉思碧">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200402152506728.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfcmFu,size_16,color_FFFFFF,t_70">
   
     <link rel="alternative" href="/atom.xml" title="冉思碧的博客" type="application/atom+xml">
   
   
-    <link rel="icon" href="/favicon.png">
+    <link rel="icon" href="/assets/20170410095843_SEvMy.thumb.700_0.jpeg">
   
   <link rel="stylesheet" type="text/css" href="/./main.0cf68a.css">
   <style type="text/css">
@@ -51,10 +51,10 @@
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			<img src="" class="js-avatar">
+			<img src="/assets/IMG_20190505_215719.JPG" class="js-avatar">
 		</a>
 		<hgroup>
-		  <h1 class="header-author"><a href="/">ransibi</a></h1>
+		  <h1 class="header-author"><a href="/">冉思碧</a></h1>
 		</hgroup>
 		
 
@@ -64,6 +64,8 @@
 				<li><a href="/">主页</a></li>
 	        
 				<li><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+	        
+				<li><a href="/archives/index.html">归档</a></li>
 	        
 			</ul>
 		</nav>
@@ -85,13 +87,11 @@
 		<nav class="header-nav">
 			<div class="social">
 				
-					<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
+					<a class="qq" target="_blank" href="/assets/qrcode_1586190944497.jpg" title="qq"><i class="icon-qq"></i></a>
 		        
-					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
+					<a class="weixin" target="_blank" href="/assets/mmqrcode1586190970899.png" title="weixin"><i class="icon-weixin"></i></a>
 		        
-					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-		        
-					<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+					<a class="mail" target="_blank" href="mailto:1123826874@qq.com" title="mail"><i class="icon-mail"></i></a>
 		        
 			</div>
 		</nav>
@@ -109,13 +109,15 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img src="" class="js-avatar">
+				<img src="/assets/IMG_20190505_215719.JPG" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">ransibi</h1>
+			  <h1 class="header-author js-header-author">冉思碧</h1>
 			</hgroup>
 			
 			
+			
+				
 			
 				
 			
@@ -126,24 +128,24 @@
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
+						<a class="qq" target="_blank" href="/assets/qrcode_1586190944497.jpg" title="qq"><i class="icon-qq"></i></a>
 			        
-						<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
+						<a class="weixin" target="_blank" href="/assets/mmqrcode1586190970899.png" title="weixin"><i class="icon-weixin"></i></a>
 			        
-						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-			        
-						<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+						<a class="mail" target="_blank" href="mailto:1123826874@qq.com" title="mail"><i class="icon-mail"></i></a>
 			        
 				</div>
 			</nav>
 
 			<nav class="header-menu js-header-menu">
-				<ul style="width: 50%">
+				<ul style="width: 70%">
 				
 				
-					<li style="width: 50%"><a href="/">主页</a></li>
+					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
 		        
-					<li style="width: 50%"><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+					<li style="width: 33.333333333333336%"><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/archives/index.html">归档</a></li>
 		        
 				</ul>
 			</nav>
@@ -178,7 +180,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="MyEclipse2017里查看JDK源码方法。"><a href="#MyEclipse2017里查看JDK源码方法。" class="headerlink" title="MyEclipse2017里查看JDK源码方法。"></a>MyEclipse2017里查看JDK源码方法。</h2><h2 id="具体步骤如下："><a href="#具体步骤如下：" class="headerlink" title="具体步骤如下："></a>具体步骤如下：</h2><pre><code>**1、打开MyEclipse2017，点击左上角的Window里的            
+        <p>@code-ran</p>
+<h1 id="MyEclipse2017里查看JDK源码方法。"><a href="#MyEclipse2017里查看JDK源码方法。" class="headerlink" title="MyEclipse2017里查看JDK源码方法。"></a>MyEclipse2017里查看JDK源码方法。</h1><a id="more"></a>
+<h2 id="具体步骤如下："><a href="#具体步骤如下：" class="headerlink" title="具体步骤如下："></a>具体步骤如下：</h2><pre><code>**1、打开MyEclipse2017，点击左上角的Window里的            
       preferences，然后找到java下的Installed JRES，
       然后选中我们添加的JDK，点击edit**
 
@@ -200,6 +204,16 @@
                   <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
                   <div class="reward-box">
                     
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/1586191622.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/mm_facetoface_collect_qrcode_1586191765026.png">
+                      <span class="reward-type">微信</span>
+                    </div>
                     
                   </div>
                 </span>
@@ -288,7 +302,7 @@
   
   
     <a href="/2020/04/05/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">（2）网站搭建好写的第一篇博客！</div>
+      <div class="article-nav-title">（2）JDK与Tomcat的安装及配置</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -307,6 +321,19 @@
             </div>
         </div>
         
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MyEclipse2017里查看JDK源码方法。"><span class="toc-number">1.</span> <span class="toc-text">MyEclipse2017里查看JDK源码方法。</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#具体步骤如下："><span class="toc-number">1.1.</span> <span class="toc-text">具体步骤如下：</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
         
     </div>
 </aside>
@@ -331,7 +358,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 ransibi
+    		&copy; 2020 冉思碧
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -462,27 +489,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
         <ul class="search-ul">
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
+              <a href="/www.baidu.com" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>百度</a>
             </li>
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接2</a>
+              <a href="/www.taobao.com" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>淘宝</a>
             </li>
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接3</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接4</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接5</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接6</a>
+              <a href="https://www.csdn.net/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>CSDN</a>
             </li>
           
         </ul>
@@ -493,7 +508,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;只做了一点微小的工作&lt;br&gt;谢谢大家</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">Hello&lt;br&gt;&lt;br&gt;欢迎访问交流&lt;br&gt;一起变得更好吧！</div>
   	  	
     	</section>
     
