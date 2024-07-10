@@ -2,7 +2,7 @@
 title: java_io流学习
 date: 2024-05-21 17:34:05
 tags: io流
-categories: java_io流相关
+categories: java IO相关
 ---
 
 ### 一、文件
