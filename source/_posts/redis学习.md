@@ -1,11 +1,11 @@
 ---
 title: redis学习
-date: 2024-07-27 22:23:41
+date: 2024-07-27 22:32:11
 tags: redis
 categories: redis相关
 ---
 
-## 一、Redis学习
+## 一、redis学习
 
 ### 1、redis官网 : https://redis.io/
 
@@ -38,7 +38,7 @@ Redis诞生于2009年全称是**Remote** **Di**ctionary **S**erver，远程词�
 
 https://redis.io/clients
 
-![image-20240727140821919](D:\github\code-ran\source\_posts\redis学习.assets\image-20240727140821919.png)
+![image-20240727140821919](./redis学习/image-20240727140821919.png)
 
 #### Jedis介绍
 
@@ -104,7 +104,7 @@ public class Jedis {
 }
 ```
 
-![image-20240727144643291](D:\github\code-ran\source\_posts\redis学习.assets\image-20240727144643291.png)
+![image-20240727144643291](./redis学习/image-20240727144643291.png)
 
 插入hash数据
 
@@ -119,7 +119,7 @@ public class Jedis {
     }
 ```
 
-![image-20240727145255174](D:\github\code-ran\source\_posts\redis学习.assets\image-20240727145255174.png)
+![image-20240727145255174](./redis学习/image-20240727145255174.png)
 
 (3)jedis连接池
 
@@ -277,7 +277,7 @@ SpringData是Spring中数据操作的模块，包含对各种数据库的集成�
 
 SpringBoot默认使用的是lettuce，如果需要使用jedis，需要再单独进行引入
 
-![image-20240727162754706](D:\github\code-ran\source\_posts\redis学习.assets\image-20240727162754706.png)
+![image-20240727162754706](./redis学习/image-20240727162754706.png)
 
 
 
@@ -325,11 +325,11 @@ public class RedisDemoApplicationTests {
 }
 ```
 
-![image-20240727164423800](D:\github\code-ran\source\_posts\redis学习.assets\image-20240727164423800.png)
+![image-20240727164423800](./redis学习/image-20240727164423800.png)
 
 实际redis库里多个
 
-![image-20240727211149185](D:\github\code-ran\source\_posts\redis学习.assets\image-20240727211149185.png)
+![image-20240727211149185](./redis学习/image-20240727211149185.png)
 
 RedisTemplate可以接收任意Object作为值写入Redis，只不过写入前会把Object序列化为字节形式，默认是采用JDK序列化。它的可读性较差，占用内存较大。
 
@@ -410,11 +410,11 @@ public class RedisDemoApplicationTests {
 
 原来的
 
-![image-20240727213225877](D:\github\code-ran\source\_posts\redis学习.assets\image-20240727213225877.png)
+![image-20240727213225877](./redis学习/image-20240727213225877.png)
 
 执行后覆盖
 
-![image-20240727213311055](D:\github\code-ran\source\_posts\redis学习.assets\image-20240727213311055.png)
+![image-20240727213311055](./redis学习/image-20240727213311055.png)
 
 
 
@@ -449,13 +449,13 @@ public class User {
     }
 ```
 
-![image-20240727214623726](D:\github\code-ran\source\_posts\redis学习.assets\image-20240727214623726.png)
+![image-20240727214623726](./redis学习/image-20240727214623726.png)
 
-![image-20240727214632832](D:\github\code-ran\source\_posts\redis学习.assets\image-20240727214632832.png)
+![image-20240727214632832](./redis学习/image-20240727214632832.png)
 
 注意: 为了在反序列化时知道对象的类型，JSON序列化器会将类的class类型写入json结果中，存入Redis，会带来额外的内存开销。为了节省内存空间，我们并不会使用JSON序列化器来处理value，而是统一使用String序列化器，要求只能存储String类型的key和value。当需要存储Java对象时，手动完成对象的序列化和反序列化。
 
-![image-20240727214834073](D:\github\code-ran\source\_posts\redis学习.assets\image-20240727214834073.png)
+![image-20240727214834073](./redis学习/image-20240727214834073.png)
 
 Spring默认提供了一个StringRedisTemplate类，它的key和value的序列化方式默认就是String方式:
 
@@ -505,7 +505,7 @@ public class RedisStringTest {
 
 存入redis结构
 
-![image-20240727220704163](D:\github\code-ran\source\_posts\redis学习.assets\image-20240727220704163.png)
+![image-20240727220704163](./redis学习/image-20240727220704163.png)
 
 存入hash结构数据
 
@@ -520,7 +520,7 @@ public class RedisStringTest {
     }
 ```
 
-![image-20240727221402230](D:\github\code-ran\source\_posts\redis学习.assets\image-20240727221402230.png)
+![image-20240727221402230](./redis学习/image-20240727221402230.png)
 
 
 
