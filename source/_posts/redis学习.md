@@ -17,6 +17,7 @@ Redis诞生于2009年全称是**Remote** **Di**ctionary **S**erver，远程词�
 (2)单线程，每个命令具备原子性
 (3)低延迟，速度快（基于内存、IO多路复用、良好的编码）。
 (4)支持数据持久化
+
 (5)支持主从集群、分片集群
 (6)支持多语言客户端
 
@@ -543,3 +544,341 @@ public class RedisStringTest {
 
 
 #### 6、业务场景实战
+
+基于redis实现用户登录
+
+
+
+```java
+    /**
+     * 发送手机验证码
+     */
+    @PostMapping("code")
+    public Result sendCode(@RequestParam("phone") String phone) {
+        return userService.sendCode(phone);
+    }
+
+    /**
+     * 登录功能
+     *
+     * @param loginForm 登录参数，包含手机号、验证码；或者手机号、密码
+     */
+    @PostMapping("/login")
+    public Result login(@RequestBody LoginFormDTO loginForm) {
+
+        return userService.login(loginForm);
+    }
+    
+    @GetMapping("/me")
+    public Result me() {
+        //获取当前登录的用户并返回
+        UserDTO user = UserHolder.getUser();
+        return Result.ok(user);
+    }
+```
+
+
+
+```java
+@Data
+public class LoginFormDTO {
+    private String phone;
+    private String code;
+    private String password;
+}
+```
+
+```java
+@Data
+public class UserDTO {
+    private Long id;
+    private String nickName;
+    private String icon;
+}
+```
+
+```java
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Result {
+    private Boolean success;
+    private String errorMsg;
+    private Object data;
+    private Long total;
+
+    public static Result ok(){
+        return new Result(true, null, null, null);
+    }
+    public static Result ok(Object data){
+        return new Result(true, null, data, null);
+    }
+    public static Result ok(List<?> data, Long total){
+        return new Result(true, null, data, total);
+    }
+    public static Result fail(String errorMsg){
+        return new Result(false, errorMsg, null, null);
+    }
+}
+```
+
+
+
+```java
+public class RedisConstants {
+    public static final String LOGIN_CODE_KEY = "login:code:";
+    public static final Long LOGIN_CODE_TTL = 2L;
+    public static final String LOGIN_USER_KEY = "login:token:";
+    public static final Long LOGIN_USER_TTL = 30L;
+}
+```
+
+
+
+```java
+public abstract class RegexPatterns {
+    /**
+     * 手机号正则
+     */
+    public static final String PHONE_REGEX = "^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\\d{8}$";
+    /**
+     * 邮箱正则
+     */
+    public static final String EMAIL_REGEX = "^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$";
+    /**
+     * 密码正则。4~32位的字母、数字、下划线
+     */
+    public static final String PASSWORD_REGEX = "^\\w{4,32}$";
+    /**
+     * 验证码正则, 6位数字或字母
+     */
+    public static final String VERIFY_CODE_REGEX = "^[a-zA-Z\\d]{6}$";
+
+}
+```
+
+```java
+import cn.hutool.core.util.StrUtil;
+
+public class RegexUtils {
+    /**
+     * 是否是无效手机格式
+     * @param phone 要校验的手机号
+     * @return true:符合，false：不符合
+     */
+    public static boolean isPhoneInvalid(String phone){
+        return mismatch(phone, RegexPatterns.PHONE_REGEX);
+    }
+    /**
+     * 是否是无效邮箱格式
+     * @param email 要校验的邮箱
+     * @return true:符合，false：不符合
+     */
+    public static boolean isEmailInvalid(String email){
+        return mismatch(email, RegexPatterns.EMAIL_REGEX);
+    }
+
+    /**
+     * 是否是无效验证码格式
+     * @param code 要校验的验证码
+     * @return true:符合，false：不符合
+     */
+    public static boolean isCodeInvalid(String code){
+        return mismatch(code, RegexPatterns.VERIFY_CODE_REGEX);
+    }
+
+    // 校验是否不符合正则格式
+    private static boolean mismatch(String str, String regex){
+        if (StrUtil.isBlank(str)) {
+            return true;
+        }
+        return !str.matches(regex);
+    }
+}
+```
+
+
+
+```java
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.lang.UUID;
+import cn.hutool.core.util.RandomUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+
+@Service
+@Slf4j
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
+    @Override
+    public Result sendCode(String phone) {
+        //校验手机号
+        if (RegexUtils.isPhoneInvalid(phone)) {
+            //不符合，返回错误信息
+            return Result.fail("手机号格式错误");
+        }
+        //符合，生成验证码--验证码一般是6位的随机数
+        String code = RandomUtil.randomNumbers(6);
+        //保存验证码到redis
+        redisTemplate.opsForValue().set(LOGIN_CODE_KEY + phone, code, LOGIN_CODE_TTL, TimeUnit.MINUTES);
+        //发送验证码,假发送
+        log.info("发送短信验证码成功,验证码：{}", code);
+        return Result.ok();
+    }
+
+    @Override
+    public Result login(LoginFormDTO loginForm) {
+        String phone = loginForm.getPhone();
+        //校验手机号
+        if (RegexUtils.isPhoneInvalid(phone)) {
+            //不符合，返回错误信息
+            return Result.fail("手机号格式错误");
+        }
+        //校验验证码
+        Object cacheCode = redisTemplate.opsForValue().get(LOGIN_CODE_KEY + phone);
+        String code = loginForm.getCode();
+        if (cacheCode == null || !cacheCode.toString().equals(code)) {
+            //不一致，报错
+            return Result.fail("验证码错误");
+        }
+        //一致，耿局手机号查询用户
+        User user = query().eq("phone", phone).one();
+        //判断用户是否存在
+        if (user == null) {
+            //不存在，创建新用户并保存
+            user = createUserWithPhone(phone);
+        }
+        //随机生成token，作为登录令牌
+        String token = UUID.randomUUID().toString(true);
+        //将User对象转为Hash存储
+        UserDTO userDTO = BeanUtil.copyProperties(user, UserDTO.class);
+        Map<String, Object> userMap = BeanUtil.beanToMap(userDTO, new HashMap<>(),
+                CopyOptions.create()
+                        .setIgnoreNullValue(true)
+                        .setFieldValueEditor((fieldName, fieldValue) -> fieldValue.toString()));
+        String tokenKey = LOGIN_USER_KEY + token;
+        //存储用户到redis
+        redisTemplate.opsForHash().putAll(tokenKey, userMap);
+        //设置token有效期
+        redisTemplate.expire(tokenKey, LOGIN_USER_TTL, TimeUnit.MINUTES);
+        //将token返回给前端
+        return Result.ok(token);
+    }
+
+    private User createUserWithPhone(String phone) {
+        User user = new User();
+        user.setPhone(phone);
+        user.setNickName("user_" + RandomUtil.randomString(10));
+        //保存用户
+        save(user);
+        return user;
+    }
+}
+```
+
+
+
+
+
+登录拦截器
+
+```java
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.web.servlet.HandlerInterceptor;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * @Author: ransibi
+ * @Date: 登录拦截器
+ * @Description:
+ */
+public class LoginInterceptor implements HandlerInterceptor {
+
+    private StringRedisTemplate redisTemplate;
+
+    //使用构造器去注入redistemplate
+    public LoginInterceptor(StringRedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        //获取请求头中的token
+        String token = request.getHeader("authorization");
+        if (StrUtil.isBlank(token)) {
+            //不存在，进行拦截，返回401
+            response.setStatus(401);
+            return false;
+        }
+        //获取redis中的用户
+        Map<Object, Object> map = redisTemplate.opsForHash().entries(RedisConstants.LOGIN_USER_KEY + token);
+        if (map.isEmpty()) {
+            //不存在，进行拦截，返回401
+            response.setStatus(401);
+            return false;
+        }
+        //将查询到的hash数据转为UserDto
+        UserDTO userDTO = BeanUtil.fillBeanWithMap(map, new UserDTO(), false);
+        //保存用户信息到ThreadLocal
+        UserHolder.saveUser((UserDTO) userDTO);
+        //刷新token的有效期
+        redisTemplate.expire(RedisConstants.LOGIN_USER_KEY, RedisConstants.LOGIN_USER_TTL, TimeUnit.MINUTES);
+        //放行
+        return true;
+    }
+
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        //防止内存泄漏，移除用户
+        UserHolder.removeUser();
+    }
+}
+```
+
+
+
+拦截器配置类
+
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class MvcConfig implements WebMvcConfigurer {
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LoginInterceptor(redisTemplate))
+                .excludePathPatterns(
+                        //需放行的接口
+                        "/user/code",
+                        "/user/login"
+                );
+    }
+}
+```
+
