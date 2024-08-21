@@ -36,6 +36,8 @@ Mybatis的sql是写在xml映射文件中的，如果sql中有一些特殊的字�
 
 如何实现精确查询？可以使用CONCAT拼接字符串的方式。
 
+这种方式使用String去接收参数
+
 ```xml
 <if test="startTime != null and startTime != ''">
      and  ayz_time <![CDATA[>=]]> CONCAT(#{startTime},' 00:00:00')
@@ -44,4 +46,108 @@ Mybatis的sql是写在xml映射文件中的，如果sql中有一些特殊的字�
     and  ayz_time <![CDATA[<=]]> CONCAT(#{endTime},' 23:59:59')
  </if>
 ```
+
+另一种方式是使用Date接收参数，再结束时间的get构造方法里进行结束时间的时、分、秒、毫秒的组装。
+
+```xml
+<if test="startTime != null">
+     and  ayz_time <![CDATA[>=]]> #{startTime,jdbcType=TIMESTAMP}
+</if>
+<if test="endTime != null">
+    and  ayz_time <![CDATA[<=]]> #{endTime,jdbcType=TIMESTAMP}
+ </if>
+```
+
+```java
+    private Date beginTime;
+
+    private Date endTime;
+    
+    public Date getBeginTime() {
+        return beginTime;
+    }
+
+    public void setBeginTime(Date beginTime) {
+        this.beginTime = beginTime;
+    }
+
+    public Date getEndTime() {
+        if (endTime == null) {
+            return null;
+        }
+        try {
+            Calendar c = Calendar.getInstance();
+            c.setTime(endTime);
+            c.set(Calendar.HOUR_OF_DAY, 23);
+
+            c.set(Calendar.MINUTE, 59);
+
+            c.set(Calendar.SECOND, 59);
+
+            c.set(Calendar.MILLISECOND, 999);
+            return c.getTime();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+```
+
+使用java8 LocalDateTime优化
+
+```java
+    private static Date getEndTime(Date dateParam) {
+        if (dateParam == null) {
+            return null;
+        }
+        Date endTime = null;
+        try {
+            LocalDateTime localDateTime = LocalDateTime.ofInstant(dateParam.toInstant(), ZoneId.systemDefault());
+            //LocalDateTime 可以用于更改日期和时间的年、月、日、时、分、秒和纳秒
+            localDateTime = localDateTime.withHour(23).withMinute(59).withSecond(59).withNano(999999999);
+            endTime = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return endTime;
+    }
+```
+
+或者
+
+```java
+            LocalDateTime localDateTime = LocalDateTime.ofInstant(dateParam.toInstant(), ZoneId.systemDefault());
+            //LocalDateTime 可以用于更改日期和时间的年、月、日、时、分、秒和纳秒
+            localDateTime = localDateTime.withHour(23).withMinute(59).withSecond(59);
+            //如果需要更改毫秒，需要转成Instant
+            Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
+            //然后使用plusMillis()追加毫秒值
+            instant = instant.plusMillis(999);
+            LocalDateTime localDateTime1 = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+            endTime = Date.from(localDateTime1.atZone(ZoneId.systemDefault()).toInstant());
+```
+
+使用
+
+```java
+    public static void main(String[] args) {
+        String str = "2024-08-21";
+        Date date = DateUtil.parse(str);
+        Date time = getEndTime(date);
+        //hutool工具
+        String formatDateTime = DateUtil.format(time,"yyyy-MM-dd HH:mm:ss:SSS");
+        System.out.println(formatDateTime);
+    }
+```
+
+```
+Wed Aug 21 23:59:59 CST 2024
+2024-08-21 23:59:59:999
+```
+
+
 

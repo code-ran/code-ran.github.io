@@ -123,7 +123,7 @@ mybatis能做什么？
   2） 创建jdbc中使用的Connection， Statement，ResultSet
 
     3)   执行sql语句， 得到ResultSet
-
+    
     4)   处理ResultSet， 把记录集中的数据转为java对象，  同时还能把java对象放入到List集合。
 
   5）关闭资源
@@ -1174,6 +1174,38 @@ sql标签标示 一段sql代码， 可以是表名，几个字段， where条件
 
     </select>
 
+```
+
+
+
+## trim标签
+
+```sql
+<mapper namespace="com.ransibi.UserMapper">
+    <insert id="insertUser" parameterType="com.ransibi.User">
+        INSERT INTO USERS
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="idp != null">id,</if>
+            <if test="namep != null and namep != ''">name,</if>
+            <if test="agep != null">age,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="idp != null">#{idp},</if>
+            <if test="namep != null and namep != ''">#{namep},</if>
+            <if test="agep != null">#{agep},</if>
+        </trim>
+    </insert>
+</mapper>
+
+
+```
+
+```xml
+prefix：在 <trim> 中的所有内容之前要添加的字符串。
+suffix：在 <trim> 中的所有内容之后要添加的字符串。
+prefixOverrides：要从 <trim> 中内容开头删除的字符串。
+suffixOverrides：要从 <trim> 中内容末尾删除的字符串。
 ```
 
 

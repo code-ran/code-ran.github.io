@@ -34,8 +34,6 @@ List<Map<String,Object>>
     List<Map<String, Object>> selectChartDataInfo(String keyName, Integer Id);
 ```
 
-![image-20220919102047138](./mybatis全动态插入/image-20220919102047138.png)
-
 
 
 #### 场景二：
