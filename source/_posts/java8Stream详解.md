@@ -32,107 +32,322 @@ stream流在管道中经过中间操作（intermediate operation）的处理，�
 
 ### 中间操作符
 
-| 流方法   | 含义                                                         | 示例                                                         |
-| -------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| filter   | 用于通过设置的条件过滤出元素                                 | List<String> strings = Arrays.asList("abc", "", "bc", "efg", "abcd","", "jkl");List<String> filtered = strings.stream().filter(string -> !string.isEmpty()).collect(Collectors.toList()); |
-| distinct | 返回一个元素各异（根据流所生成元素的hashCode和equals方法实现）的流。 | List<Integer> numbers = Arrays.asList(1, 2, 1, 3, 3, 2, 4);numbers.stream().filter(i -> i % 2 == 0).distinct().forEach(System.out::println); |
-| limit    | 会返回一个不超过给定长度的流。                               | List<String> strings = Arrays.asList("abc", "abc", "bc", "efg", "abcd","jkl", "jkl");List<String> limited = strings.stream().limit(3).collect(Collectors.toList()); |
-| skip     | 返回一个扔掉了前n个元素的流。                                | List<String> strings = Arrays.asList("abc", "abc", "bc", "efg", "abcd","jkl", "jkl");List<String> skiped = strings.stream().skip(3).collect(Collectors.toList()); |
-| map      | 接受一个函数作为参数。这个函数会被应用到每个元素上，并将其映射成一个新的元素（使用映射一词，是因为它和转换类似，但其中的细微差别在于它是“创建一个新版本”而不是去“修改”）。 | List<String> strings = Arrays.asList("abc", "abc", "bc", "efg", "abcd","jkl", "jkl");List<String> mapped = strings.stream().map(str->str+"-itcast").collect(Collectors.toList()); |
-| flatMap  | 使用flatMap方法的效果是，各个数组并不是分别映射成一个流，而是映射成流的内容。所有使用map(Arrays::stream)时生成的单个流都被合并起来，即扁平化为一个流。 | List<String> strings = Arrays.asList("abc", "abc", "bc", "efg", "abcd","jkl", "jkl");Stream<Character> flatMap = strings.stream().flatMap(Java8StreamTest::getCharacterByString); |
-| sorted   | 返回排序后的流                                               | List<String> strings1 = Arrays.asList("abc", "abd", "aba", "efg", "abcd","jkl", "jkl");List<String> sorted1 = strings1.stream().sorted().collect(Collectors.toList()); |
+#### filter
 
-> 示例代码：
->
-> 1）filter
->
-> ```java
-> /**
->  * 功能描述:根据条件过滤集合数据
->  * @return : void
->  */
-> @Test
-> public void filter(){
->     List<String> strings = Arrays.asList("abc", "", "bc", "efg", "abcd","", "jkl");
->     List<String> filtered = strings.stream().filter(string -> !string.isEmpty()).collect(Collectors.toList());
->     out.println(filtered);
-> }
-> ```
->
-> 2）distinct
->
-> ```java
-> /**
->  * 功能描述:去除集合中重复数据
->  * @return : void
->  */
-> @Test
-> public void distinct(){
->     List<String> strings = Arrays.asList("abc", "abc", "bc", "efg", "abcd","jkl", "jkl");
->     List<String> distincted = strings.stream().distinct().collect(Collectors.toList());
->     out.println(distincted);
-> }
-> ```
->
-> 3）limit
->
-> ```java
-> /**
->  * 功能描述:指定获取集合前x条数据，重新构造一个新的集合
->  * @return : void
->  */
-> @Test
-> public void limit(){
->     List<String> strings = Arrays.asList("abc", "abc", "bc", "efg", "abcd","jkl", "jkl");
->     List<String> limited = strings.stream().limit(3).collect(Collectors.toList());
->     out.println(limited);
-> }
-> ```
->
-> 4）skip
->
-> ```java
-> /**
->  * 功能描述:排除集合前x条数据，把后面的数据重新构造一个新的集合
->  * @return : void
->  */
-> @Test
->     public void skip(){
->     List<String> strings = Arrays.asList("abc", "abc", "bc", "efg", "abcd","jkl", "jkl");
->     List<String> skiped = strings.stream().skip(3).collect(Collectors.toList());
->     out.println(skiped);
-> }
-> ```
->
-> 5）map
->
-> ```java
-> /**
->  * 功能描述:对集合中所有元素统一处理
->  * @return : void
->  */
-> @Test
-> public void map(){
->     List<String> strings = Arrays.asList("abc", "abc", "bc", "efg", "abcd","jkl", "jkl");
->     List<String> mapped = strings.stream().map(str->str+"-itcast").collect(Collectors.toList());
->     out.println(mapped);
-> }
-> ```
->
-> 6）flatMap
->
-> ```java
-> /**
->  * 功能描述:对集合中所有元素统一处理
->  * @return : void
->  */
-> @Test
-> public void flatMap(){
->     List<String> strings = Arrays.asList("abc", "abc", "bc", "efg", "abcd","jkl", "jkl");
->     Stream<String> stringStream = strings.stream().map(x -> x);
->     Stream<String> stringStream1 = strings.stream().flatMap(x -> Arrays.asList(x.split(" ")).stream());
-> }
-> ```
+用于通过设置的条件过滤出元素
+
+```java
+        //基本数据类型
+        List<String> strings = Arrays.asList("abc", "", "bc", "efg", "abcd", "", "jkl");
+        List<String> filtered = strings.stream().filter(string -> !string.isEmpty()).collect(Collectors.toList());
+        System.out.println(filtered);
+```
+
+```
+[abc, bc, efg, abcd, jkl]
+```
+
+
+
+```java
+package com.ransibi.java8;
+
+import lombok.Data;
+
+@Data
+public class TestBean {
+    private String role;
+    private String name;
+    private String file;
+    private String path;
+}
+```
+
+
+
+```java
+       //List<Bean>
+       List<TestBean> testBeanList = new ArrayList<>();
+        TestBean testBean = new TestBean();
+        testBean.setRole("1");
+        testBean.setName("测试1");
+        testBean.setFile("***.xml");
+        testBean.setPath("home/test/***.xml");
+        testBeanList.add(testBean);
+        TestBean testBean1 = new TestBean();
+        testBean1.setRole("2");
+        testBean1.setName("测试2");
+        testBean1.setFile("***.xml");
+        testBean1.setPath("home/test/***.xml");
+        testBeanList.add(testBean1);
+        TestBean testBean2 = new TestBean();
+        testBean2.setRole("3");
+        testBean2.setName("测试3");
+        testBean2.setFile("111.xml");
+        testBean2.setPath("home/test/***.xml");
+        testBeanList.add(testBean2);
+
+        List<TestBean> filterLst = testBeanList.stream()
+                .filter(obj ->obj.getFile().equals("***.xml"))
+                .collect(Collectors.toList());
+        System.out.println(filterLst);
+```
+
+```
+[TestBean(role=1, name=测试1, file=***.xml, path=home/test/***.xml), TestBean(role=2, name=测试2, file=***.xml, path=home/test/***.xml)]
+```
+
+#### distinct
+
+返回一个元素各异（根据流所生成元素的hashCode和equals方法实现）的流。
+
+```
+        //基本数据类型
+        List<String> strings = Arrays.asList("abc", "abc", "bc", "efg", "abcd","jkl", "jkl","");
+        List<String> distincted = strings.stream().distinct().collect(Collectors.toList());
+        System.out.println(distincted);
+```
+
+```java
+        List<TestBean> testBeanList = new ArrayList<>();
+        TestBean testBean = new TestBean();
+        testBean.setRole("1");
+        testBean.setName("测试1");
+        testBean.setFile("***.xml");
+        testBean.setPath("home/test/***.xml");
+        testBeanList.add(testBean);
+        TestBean testBean1 = new TestBean();
+        testBean1.setRole("2");
+        testBean1.setName("测试1");
+        testBean1.setFile("***.xml");
+        testBean1.setPath("home/test/***.xml");
+        testBeanList.add(testBean1);
+        TestBean testBean2 = new TestBean();
+        testBean2.setRole("1");
+        testBean2.setName("测试1");
+        testBean2.setFile("***.xml");
+        testBean2.setPath("home/test/***.xml");
+        testBeanList.add(testBean2);
+        List<TestBean> distinctCollect = testBeanList.stream().distinct().collect(Collectors.toList());
+        System.out.println(distinctCollect);
+```
+
+```
+[TestBean(role=1, name=测试1, file=***.xml, path=home/test/***.xml), TestBean(role=2, name=测试1, file=***.xml, path=home/test/***.xml)]
+```
+
+注意: 如何想按某几个属性进行去重，需要重写equals()和hashCode()方法，比如我想让name、file、path字段属性参与去重，那么就重写对应的equals()和hashCode()方法就行:
+
+```java
+package com.ransibi.java8;
+
+import lombok.Data;
+
+import java.util.Objects;
+
+@Data
+public class TestBean {
+    private String role;
+    private String name;
+    private String file;
+    private String path;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TestBean testBean = (TestBean) o;
+        return Objects.equals(name, testBean.name) && Objects.equals(file, testBean.file) && Objects.equals(path, testBean.path);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, file, path);
+    }
+}
+```
+
+```
+[TestBean(role=1, name=测试1, file=***.xml, path=home/test/***.xml)]
+```
+
+#### limit
+
+返回一个不超过给定长度的流。指定获取集合前x条数据，重新构造一个新的集合。
+
+```java
+        
+        List<String> strings = Arrays.asList("abc", "abc", "bc", "efg", "abcd","jkl", "jkl");
+        List<String> limited = strings.stream().limit(3).collect(Collectors.toList());
+        System.out.println(limited);
+```
+
+```
+[abc, abc, bc]
+```
+
+#### skip
+
+返回一个扔掉了前n个元素的流。排除集合前x条数据，把后面的数据重新构造一个新的集合。
+
+```java
+        List<String> strings = Arrays.asList("abc", "abc", "bc", "efg", "abcd","jkl", "jkl");
+        List<String> skiped = strings.stream().skip(3).collect(Collectors.toList());
+        System.out.println(skiped);
+```
+
+```
+[efg, abcd, jkl, jkl]
+```
+
+#### map
+
+接收一个函数作为参数。这个函数会被应用到每个元素上，并将其映射成一个新的元素（使用映射一词，是因为它和转换类似，但其中的细微差别在于它是“创建一个新版本”而不是去“修改”）。对集合中所有元素统一处理。
+
+```java
+        //基本数据类型
+        List<String> strings = Arrays.asList("abc", "abc", "bc", "efg", "abcd","jkl", "jkl");
+        List<String> mapped = strings.stream().map(str->str+"-测试").collect(Collectors.toList());
+        System.out.println(mapped);
+```
+
+```
+[abc-测试, abc-测试, bc-测试, efg-测试, abcd-测试, jkl-测试, jkl-测试]
+```
+
+```java
+        List<TestBean> testBeanList = new ArrayList<>();
+        TestBean testBean = new TestBean();
+        testBean.setRole("1");
+        testBean.setName("测试1");
+        testBean.setFile("***.xml");
+        testBean.setPath("home/test/***.xml");
+        testBeanList.add(testBean);
+        TestBean testBean1 = new TestBean();
+        testBean1.setRole("2");
+        testBean1.setName("测试2");
+        testBean1.setFile("***.xml");
+        testBean1.setPath("home/test/***.xml");
+        testBeanList.add(testBean1);
+        TestBean testBean2 = new TestBean();
+        testBean2.setRole("3");
+        testBean2.setName("测试3");
+        testBean2.setFile("***.xml");
+        testBean2.setPath("home/test/***.xml");
+        testBeanList.add(testBean2);
+
+        List<String> collect = testBeanList.stream().map(TestBean::getName).collect(Collectors.toList());
+        System.out.println(collect);
+```
+
+```
+[测试1, 测试2, 测试3]
+```
+
+
+
+#### flatMap
+
+使用flatMap方法的效果是，各个数组并不是分别映射成一个流，而是映射成流的内容。所有使用map(Arrays::stream)时生成的单个流都被合并起来，即扁平化为一个流。
+
+应用场景: 
+
+- 嵌套集合展平：将嵌套的集合转换为单一的流。
+- 一对多映射：将流中的每个元素转换为多个元素的流。
+
+(1)嵌套集合展平
+
+```java
+        List<List<String>> nestedList = Arrays.asList(
+                Arrays.asList("apple", "banana"),
+                Arrays.asList("cherry", "date"),
+                Arrays.asList("elderberry", "fig", "grape")
+        );
+        //将嵌套的列表展平为一个包含所有元素的单一列表
+        List<String> flatList = nestedList.stream()
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+        System.out.println(flatList);
+```
+
+```
+[apple, banana, cherry, date, elderberry, fig, grape]
+```
+
+(2)一对多映射
+
+```java
+        List<String> words = Arrays.asList("apple", "banana", "cherry");
+        List<String> characters = words.stream()
+                .flatMap(word -> Arrays.stream(word.split("")))
+                .collect(Collectors.toList());
+        System.out.println(characters);
+```
+
+```
+[a, p, p, l, e, b, a, n, a, n, a, c, h, e, r, r, y]
+```
+
+(3)处理复杂对象
+
+​          假设有一个包含用户对象的列表，每个用户都有一个包含多个地址的列表，我们希望提取所有用户的所有地址，并将结果收集到一个
+
+新的列表中。
+
+```java
+package com.ransibi.java8;
+
+import lombok.Data;
+
+import java.util.List;
+
+@Data
+public class UserBean {
+    private String name;
+    private List<String> address;
+
+    public UserBean(String name, List<String> address) {
+        this.name = name;
+        this.address = address;
+    }
+}
+```
+
+```java
+        List<UserBean> userBeanList = new ArrayList<>();
+        UserBean userBean = new UserBean("小美", Arrays.asList("北京","贵州"));
+        UserBean userBean1 = new UserBean("小王", Arrays.asList("上海","湖南"));
+        UserBean userBean2 = new UserBean("小明", Arrays.asList("浙江","广东"));
+        userBeanList.add(userBean);
+        userBeanList.add(userBean1);
+        userBeanList.add(userBean2);
+        List<String> collect = userBeanList.stream().flatMap(user -> user.getAddress().stream()).collect(Collectors.toList());
+        System.out.println(collect);
+```
+
+```
+[北京, 贵州, 上海, 湖南, 浙江, 广东]
+```
+
+注意事项:
+
+```
+Function 的实现：flatMap 方法依赖于 Function 接口的实现，因此实现的逻辑需要准确无误，以确保转换结果正确。
+流的扁平化：flatMap 方法不仅会转换流中的元素，还会将多个流合并为一个单一的流，从而消除嵌套结构。
+性能影响：对于大型数据集，频繁使用复杂的 flatMap 操作可能影响性能，应尽量优化转换逻辑。
+```
+
+
+
+#### sorted
+
+返回排序后的流
+
+
+
+
+
+> 
 >
 > 7）sorted
 >
@@ -147,11 +362,11 @@ stream流在管道中经过中间操作（intermediate operation）的处理，�
 >     List<String> strings2 = Arrays.asList("张三", "李四", "王五", "赵柳", "张哥","李哥", "王哥");
 >     List<Integer> strings3 = Arrays.asList(10, 2, 30, 22, 1,0, -9);
 >     List<String> sorted1 = strings1.stream()
-                                     .sorted()
-                                     .collect(Collectors.toList());
+>                                    .sorted()
+>                                   .collect(Collectors.toList());
 >     List<String> sorted2 = strings2.stream()
-                                     .sorted(Collections.reverseOrder(Collator.getInstance(Locale.CHINA)))
-                                     .collect(Collectors.toList());
+>                                   .sorted(Collections.reverseOrder(Collator.getInstance(Locale.CHINA)))
+>                                    .collect(Collectors.toList());
 >     List<Integer> sorted3 = strings3.stream()
 >                                     .sorted()
 >                                     .collect(Collectors.toList());
@@ -160,7 +375,7 @@ stream流在管道中经过中间操作（intermediate operation）的处理，�
 >     System.out.println(sorted3);
 > }
 > ```
->
+> 
 >  Map、flatMap区别
 
 ```
