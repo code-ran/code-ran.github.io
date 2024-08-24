@@ -23,7 +23,7 @@ categories: java工具类相关
 
 - 如果属性名以"is"开头，则getter方法会省掉get，set方法会去掉is。例如属性名为isExist，方法是isExist/setExist。需要注意的是有些开发工具自动生成的getter/setter方法，并没有考虑到上面所说的特例情况，会导致bug的产生。
 
-  ![image-20240825012740592](D:\github\code-ran.github.io\source\_posts\lombok学习\image-20240825012740592.png)
+  ![image-20240825012740592](./lombok学习/image-20240825012740592.png)
 
 ```
 log.info("get方法:{}",lomTestBean.isExist());
@@ -31,7 +31,7 @@ log.info("get方法:{}",lomTestBean.isExist());
 
 #### 3.原理
 
-![image-20240824235219810](D:\github\code-ran.github.io\source\_posts\lombok学习\image-20240824235219810.png)
+![image-20240824235219810](./lombok学习/image-20240824235219810.png)
 
 例子说明:
 
@@ -76,11 +76,11 @@ LomTestBean(name=张三, age=20, sex=男)
 
 @Data注解自动生成了Get、Set、toString、hashCode、equals方法
 
-![image-20240824233620569](D:\github\code-ran.github.io\source\_posts\lombok学习\image-20240824233620569.png)
+![image-20240824233620569](./lombok学习/image-20240824233620569.png)
 
 在编译阶段生效
 
-![image-20240824235112788](D:\github\code-ran.github.io\source\_posts\lombok学习\image-20240824235112788.png)
+![image-20240824235112788](./lombok学习/image-20240824235112788.png)
 
 #### 4.常用注解
 
@@ -104,7 +104,7 @@ LomTestBean(name=张三, age=20, sex=男)
 
 用来生成所有属性的有参构造方法和无参构造方法,一般组合使用.
 
-![image-20240825000235770](D:\github\code-ran.github.io\source\_posts\lombok学习\image-20240825000235770.png)
+![image-20240825000235770](./lombok学习/image-20240825000235770.png)
 
 ```java
 //        LomTestBean lomTestBean = new LomTestBean();
@@ -133,7 +133,7 @@ public class LomTestBean {
 }
 ```
 
-![image-20240825000541891](D:\github\code-ran.github.io\source\_posts\lombok学习\image-20240825000541891.png)
+![image-20240825000541891](./lombok学习/image-20240825000541891.png)
 
 #### @Builder
 
@@ -229,7 +229,7 @@ public class LomTest {
 00:20:56.553 [main] INFO com.ransibi.lombok.LomTest - 信息输出:LomTestBean(name=张三, age=20, sex=男)
 ```
 
-![image-20240825002146626](D:\github\code-ran.github.io\source\_posts\lombok学习\image-20240825002146626.png)
+![image-20240825002146626](./lombok学习/image-20240825002146626.png)
 
 支持通过{}进行占位。
 
