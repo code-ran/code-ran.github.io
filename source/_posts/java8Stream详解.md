@@ -343,40 +343,31 @@ Function 的实现：flatMap 方法依赖于 Function 接口的实现，因此�
 
 返回排序后的流
 
+```java
+        List<String> strings1 = Arrays.asList("abc", "abd", "aba", "efg", "abcd", "jkl", "jkl");
+        List<String> strings2 = Arrays.asList("张三", "李四", "王五", "赵柳", "张哥", "李哥", "王哥");
+        List<Integer> strings3 = Arrays.asList(10, 2, 30, 22, 1, 0, -9);
+        List<String> sorted1 = strings1.stream()
+                .sorted()
+                .collect(Collectors.toList());
+        List<String> sorted2 = strings2.stream()
+                .sorted(Collections.reverseOrder(Collator.getInstance(Locale.CHINA)))
+                .collect(Collectors.toList());
+        List<Integer> sorted3 = strings3.stream()
+                .sorted()
+                .collect(Collectors.toList());
+        System.out.println(sorted1);
+        System.out.println(sorted2);
+        System.out.println(sorted3);
+```
 
+```
+[aba, abc, abcd, abd, efg, jkl, jkl]
+[赵柳, 张三, 张哥, 王五, 王哥, 李四, 李哥]
+[-9, 0, 1, 2, 10, 22, 30]
+```
 
-
-
-> 
->
-> 7）sorted
->
-> ```java
-> /**
->  * 功能描述 : 对集合进行排序
->  * @return : void
->  */
-> @Test
-> public void sorted(){
->     List<String> strings1 = Arrays.asList("abc", "abd", "aba", "efg", "abcd","jkl", "jkl");
->     List<String> strings2 = Arrays.asList("张三", "李四", "王五", "赵柳", "张哥","李哥", "王哥");
->     List<Integer> strings3 = Arrays.asList(10, 2, 30, 22, 1,0, -9);
->     List<String> sorted1 = strings1.stream()
->                                    .sorted()
->                                   .collect(Collectors.toList());
->     List<String> sorted2 = strings2.stream()
->                                   .sorted(Collections.reverseOrder(Collator.getInstance(Locale.CHINA)))
->                                    .collect(Collectors.toList());
->     List<Integer> sorted3 = strings3.stream()
->                                     .sorted()
->                                     .collect(Collectors.toList());
->     System.out.println(sorted1);
->     System.out.println(sorted2);
->     System.out.println(sorted3);
-> }
-> ```
-> 
->  Map、flatMap区别
+#### Map与flatMap区别
 
 ```
 map：对流中每一个元素进行处理
@@ -386,236 +377,156 @@ flatMap：流扁平化，让你把一个流中的“每个值”都换成另一�
 
 `本质区别`：map返回一个值；flatmap返回一个流，多个值。
 
-`应用场景`：map对集合中每个元素加工,返回加工后结果；flatmap对集合中每个元素加工后，
-做扁平化处理后（拆分层级，放到同一层）然后返回
-
-```java
-/**
- * 方法一
- * 功能描述:  通过使用map、flatMap把字符串转换为字符输出对比区别
- * @return : void
- */
-@Test
-public void flatMap2Map(){
-    List<String> strings = Arrays.asList("abc", "abc", "bc", "efg", "abcd","jkl", "jkl");
-    final Stream<Character> flatMap = strings.stream()
-                                             .flatMap(Java8StreamTest::getCharacterByString);
-    flatMap.forEach(System.out::println);
-    //----------------------------------------------
-    final Stream<Stream<Character>> mapStream = strings.stream()
-                                                       .map(Java8StreamTest::getCharacterByString);
-    //mapStream.forEach(System.out::println);
-    out.println("------------------------------------------------");
-    mapStream.forEach(
-        stream-> {stream.forEach(character->{System.out.println(character);});}
-        );
-
-}
-```
-
-> 公共方法（字符串转换为字符流）
-
-```java
-/**
-* 功能描述:字符串转换为字符流
-* @param str
-* @return : java.util.stream.Stream<java.lang.Character>
-*/
-public static Stream<Character> getCharacterByString(String str) {
-    List<Character> characterList = new ArrayList<>();
-    for (Character character : str.toCharArray()) {
-    	characterList.add(character);
-    }
-    return characterList.stream();
-}
-```
+`应用场景`：map对集合中每个元素加工,返回加工后结果；flatmap对集合中每个元素加工后，做扁平化处理（拆分层级，放到同一层）然后返回。
 
 ### 终止操作符
 
-| 流方法    | 含义                                     | 示例                                                         |
-| --------- | ---------------------------------------- | ------------------------------------------------------------ |
-| anyMatch  | 检查是否至少匹配一个元素，返回boolean。  | List<String> strings = Arrays.asList("abc", "abd", "aba", "efg", "abcd","jkl", "jkl");boolean b = strings.stream().anyMatch(s -> s == "abc"); |
-| allMatch  | 检查是否匹配所有元素，返回boolean。      | List<String> strings = Arrays.asList("abc", "abd", "aba", "efg", "abcd","jkl", "jkl");boolean b = strings.stream().allMatch(s -> s == "abc"); |
-| noneMatch | 检查是否没有匹配所有元素，返回boolean。  | List<String> strings = Arrays.asList("abc", "abd", "aba", "efg", "abcd","jkl", "jkl");boolean b = strings.stream().noneMatch(s -> s == "abc"); |
-| findAny   | 将返回当前流中的任意元素。               | List<String> strings = Arrays.asList("cv", "abd", "aba", "efg", "abcd","jkl", "jkl");Optional<String> any = strings.stream().findAny(); |
-| findFirst | 返回第一个元素                           | List<String> strings = Arrays.asList("cv", "abd", "aba", "efg", "abcd","jkl", "jkl");Optional<String> first = strings.stream().findFirst(); |
-| forEach   | 遍历流                                   | List<String> strings = Arrays.asList("cv", "abd", "aba", "efg", "abcd","jkl", "jkl");strings.stream().forEach(s -> out.println(s)); |
-| collect   | 收集器，将流转换为其他形式。             | List<String> strings = Arrays.asList("cv", "abd", "aba", "efg", "abcd","jkl", "jkl");Set<String> set = strings.stream().collect(Collectors.toSet());List<String> list = strings.stream().collect(Collectors.toList());Map<String, String> map = strings.stream().collect(Collectors.toMap(v ->v.concat("_name"), v1 -> v1, (v1, v2) -> v1)); |
-| reduce    | 可以将流中元素反复结合起来，得到一个值。 | List<String> strings = Arrays.asList("cv", "abd", "aba", "efg", "abcd","jkl", "jkl");Optional<String> reduce = strings.stream().reduce((acc,item) -> {return acc+item;});if(reduce.isPresent())out.println(reduce.get()); |
-| count     | 返回流中元素总数。                       | List<String> strings = Arrays.asList("cv", "abd", "aba", "efg", "abcd","jkl", "jkl");long count = strings.stream().count(); |
+#### anyMatch
 
-> 示例代码
->
-> 1）anyMatch
->
-> ```java
-> /**
->  * 功能描述 : 判断集合中是否至少存在一个元素满足条件
->  * @return : void
->  */
-> @Test
-> public void anyMatch(){
->     List<String> strings = Arrays.asList("abc", "abd", "aba", "efg", "abcd","jkl", "jkl");
->     boolean b = strings.stream().anyMatch(s -> s == "abc");
->     out.println(b);
-> }
-> ```
->
-> 2）allMatch
->
-> ```java
-> /**
->  * 功能描述 : 判断集合中是否所有元素都满足条件
->  * @return : void
->  */
-> @Test
-> public void allMatch(){
->     List<String> strings = Arrays.asList("abc", "abd", "aba", "efg", "abcd","jkl", "jkl");
->     boolean b = strings.stream().allMatch(s -> s == "abc");
->     out.println(b);
-> }
-> ```
->
-> 3）noneMatch
->
-> ```java
-> /**
->  * 功能描述 : 判断集合中是否所有元素都不满足条件
->  * @return : void
->  */
-> @Test
-> public void noneMatch(){
->     List<String> strings = Arrays.asList("abc", "abd", "aba", "efg", "abcd","jkl", "jkl");
->     boolean b = strings.stream().noneMatch(s -> s == "abc");
->     out.println(b);
-> }
-> ```
->
-> 4）findAny
->
-> ```java
-> /**
->  * 功能描述 : 返回当前流中任意元素
->  * @return : void
->  */
-> @Test
-> public void findAny(){
->     List<String> strings = Arrays.asList("cv", "abd", "aba", "efg", "abcd","jkl", "jkl");
->     Optional<String> any = strings.stream().findAny();
->     if(any.isPresent()) out.println(any.get());
-> }
-> ```
->
-> 5）findFirst
->
-> ```java
-> /**
->  * 功能描述 : 返回当前流中第一个元素
->  * @return : void
->  */
-> @Test
-> public void findFirst(){
->     List<String> strings = Arrays.asList("cv", "abd", "aba", "efg", "abcd","jkl", "jkl");
->     Optional<String> first = strings.stream().findFirst();
->     if(first.isPresent()) out.println(first.get());
-> }
-> ```
->
-> 6）forEach java 
->
-> ```java
-> /**
->  * 功能描述 : 遍历流
->  * @return : void
->  */
-> @Test
-> public void foreach(){
->     List<String> strings = Arrays.asList("cv", "abd", "aba", "efg", "abcd","jkl", "jkl");
->     strings.stream().forEach(s -> out.println(s));
-> }
-> ```
->
-> 7）collect
->
-> ```java
-> /**
->  * 功能描述 : 流转换为其他形式
->  * @return : void
->  */
-> @Test
-> public void collect(){
->     List<String> strings = Arrays.asList("cv", "abd", "aba", "efg", "abcd","jkl", "jkl");
->     Set<String> set = strings.stream().collect(Collectors.toSet());
->     List<String> list = strings.stream().collect(Collectors.toList());
->     Map<String, String> map = strings.stream().collect(Collectors.toMap(v ->v.concat("_name"), v1 -> v1, (v1, v2) -> v1));
->     out.println(set);
->     out.println(list);
->     out.println(map);
-> }
-> ```
->
-> 8）reduce
->
-> ```java
-> /**
->  * 功能描述 : 将流中元素反复结合起来，得到一个值
->  * @return : void
->  */
-> @Test
-> public void reduce(){
->     List<String> strings = Arrays.asList("cv", "abd", "aba", "efg", "abcd","jkl", "jkl");
->     //reduce方法一
->     Optional<String> reduce1 = strings.stream().reduce((acc,item) -> {return acc+item;});
->     //reduce方法二
->     String reduce2 = strings.stream().reduce("itcast", (acc, item) -> {
->     	return acc + item;
->     });
->     //reduce方法三
->     ArrayList<String> reduce3 = strings.stream().reduce(
->         new ArrayList<String>(),
->    		new BiFunction<ArrayList<String>, String, ArrayList<String>>() {
->     		@Override
->     		public ArrayList<String> apply(ArrayList<String> acc, String item) {
->     			acc.add(item);
->     			return acc;
->     		}
->     	}, 
->         new BinaryOperator<ArrayList<String>>() {
->    			@Override
->     		public ArrayList<String> apply(ArrayList<String> acc, ArrayList<String> item) {
->     		return acc;
->     		}
->     	}
->     );
->     if(reduce1.isPresent())out.println(reduce1.get());
->     out.println(reduce2);
->     out.println(reduce3);
-> }
-> ```
->
-> 9）count
->
-> ```java
-> /**
-> * 功能描述 : 返回流中元素总数
-> * @return : void
-> */
-> @Test
-> public void count(){
->     List<String> strings = Arrays.asList("cv", "abd", "aba", "efg", "abcd","jkl", "jkl");
->     long count = strings.stream().count();
->     out.println(count);
-> }
-> ```
+判断集合中是否至少存在一个元素满足条件，返回boolean。
 
-注意：文章中因排序部分用到外部比较器，需要导入外部jar包
-
-```xml
-<!--apache集合操作工具包-->
-<dependency>
-    <groupId>org.apache.commons</groupId>
-    <artifactId>commons-collections4</artifactId>
-    <version>4.4</version>
-</dependency>
+```java
+        List<String> strings = Arrays.asList("abc", "abd", "aba", "efg", "abcd","jkl", "jkl");
+        boolean b = strings.stream().anyMatch(s -> s.equals( "abc"));
+        System.out.println(b);
 ```
 
+```
+true
+```
+
+#### allMatch
+
+判断集合中是否所有元素都满足条件，返回boolean。
+
+```java
+        List<String> strings = Arrays.asList("abc", "abd", "aba", "efg", "abcd","jkl", "jkl");
+        boolean b = strings.stream().allMatch(s -> s.equals( "abc"));
+        System.out.println(b);
+```
+
+```
+false
+```
+
+#### noneMatch
+
+判断集合中是否所有元素都不满足条件，返回boolean。
+
+```java
+        List<String> strings = Arrays.asList("abc", "abd", "aba", "efg", "abcd", "jkl", "jkl");
+        boolean b = strings.stream().noneMatch(s -> s.equals("abc"));
+        System.out.println(b);
+```
+
+```
+false
+```
+
+#### findAny
+
+返回当前流中任意元素。
+
+```java
+        List<String> strings = Arrays.asList("cv", "abd", "aba", "efg", "abcd","jkl", "jkl");
+        Optional<String> any = strings.stream().findAny();
+        if(any.isPresent()){
+            System.out.println(any.get());
+        }
+```
+
+```
+cv
+```
+
+#### findFirst
+
+返回当前流中第一个元素。
+
+```java
+        List<String> strings = Arrays.asList("cv", "abd", "aba", "efg", "abcd","jkl", "jkl");
+        Optional<String> first = strings.stream().findFirst();
+        if(first.isPresent()){
+            System.out.println(first.get());
+        }
+```
+
+```
+cv
+```
+
+#### forEach
+
+遍历流。
+
+```java
+        List<String> strings = Arrays.asList("cv", "abd", "aba", "efg", "abcd","jkl", "jkl");
+        strings.stream().forEach(s -> System.out.println(s));
+```
+
+```
+cv
+abd
+aba
+efg
+abcd
+jkl
+jkl
+```
+
+#### collect
+
+收集器，将流转换为其他形式。
+
+```java
+        List<String> strings = Arrays.asList("cv", "abd", "aba", "efg", "abcd","jkl", "jkl");
+        Set<String> set = strings.stream().collect(Collectors.toSet());
+        List<String> list = strings.stream().collect(Collectors.toList());
+        Map<String, String> map = strings.stream().collect(Collectors.toMap(v ->v.concat("_name"), v1 -> v1, (v1, v2) -> v1));
+        System.out.println(set);
+        System.out.println(list);
+        System.out.println(map);
+```
+
+```
+[aba, abd, cv, efg, jkl, abcd]
+[cv, abd, aba, efg, abcd, jkl, jkl]
+{abd_name=abd, aba_name=aba, abcd_name=abcd, cv_name=cv, efg_name=efg, jkl_name=jkl}
+```
+
+#### reduce
+
+将流中元素反复结合起来，得到一个值。
+
+```java
+        List<String> strings = Arrays.asList("cv", "abd", "aba", "efg", "abcd", "jkl", "jkl");
+        //reduce方法一
+        Optional<String> reduce1 = strings.stream().reduce((acc, item) -> {
+            return acc + item;
+        });
+        //reduce方法二
+        String reduce2 = strings.stream().reduce("test", (acc, item) -> {
+            return acc + item;
+        });
+        System.out.println(reduce1);
+        System.out.println(reduce2);
+```
+
+```
+Optional[cvabdabaefgabcdjkljkl]
+testcvabdabaefgabcdjkljkl
+```
+
+#### count
+
+返回流中元素总数。
+
+```java
+        List<String> strings = Arrays.asList("cv", "abd", "aba", "efg", "abcd", "jkl", "jkl");
+        long count = strings.stream().count();
+        System.out.println(count);
+```
+
+```
+7
+```
