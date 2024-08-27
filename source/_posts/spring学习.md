@@ -937,3 +937,385 @@ destroy ...
 隐藏依赖关系.
 ```
 
+### 10、拓展注解了解
+
+#### @Qualifier
+
+| 名称 | @Qualifier                                           |
+| ---- | ---------------------------------------------------- |
+| 类型 | 属性注解  或  方法注解（了解）                       |
+| 位置 | 属性定义上方  或  标准set方法上方  或  类set方法上方 |
+| 作用 | 为引用类型属性指定注入的beanId                       |
+| 属性 | value（默认）：设置注入的beanId                      |
+
+当根据类型在容器中找到多个bean,注入参数的属性名又和容器中bean的名称不一致，这个时候该如何解决，就需要使用到`@Qualifier`来指定注入哪个名称的bean对象。@Qualifier不能独立使用，必须和@Autowired一起使用。
+
+```java
+@Service
+public class BookServiceImpl implements BookService {
+    @Autowired
+    @Qualifier("bookDao1")
+    private BookDao bookDao;
+    
+    public void save() {
+        System.out.println("book service save ...");
+        bookDao.save();
+    }
+}
+```
+
+#### @Value
+
+| 名称 | @Value                                               |
+| ---- | ---------------------------------------------------- |
+| 类型 | 属性注解  或  方法注解（了解）                       |
+| 位置 | 属性定义上方  或  标准set方法上方  或  类set方法上方 |
+| 作用 | 为  基本数据类型  或  字符串类型  属性设置值         |
+| 属性 | value（默认）：要注入的属性值                        |
+
+`@Value`一般会被用在从properties配置文件中读取内容。
+
+```java
+@Repository("bookDao")
+public class BookDaoImpl implements BookDao {
+    @Value("${name}")
+    private String name;
+    public void save() {
+        System.out.println("book dao save ..." + name);
+    }
+}
+```
+
+#### @PropertySource
+
+| 名称 | @PropertySource                                              |
+| ---- | ------------------------------------------------------------ |
+| 类型 | 类注解                                                       |
+| 位置 | 类定义上方                                                   |
+| 作用 | 加载properties文件中的属性值                                 |
+| 属性 | value（默认）：设置加载的properties文件对应的文件名或文件名组成的数组 |
+
+```java
+@Configuration
+@ComponentScan("com.itheima")
+@PropertySource("jdbc.properties")
+public class SpringConfig {
+}
+```
+
+`@PropertySource`注解属性中可以把`classpath:`加上,代表从当前项目的根路径找文件;`@PropertySource`注解属性中不支持使用通配符`*`,运行会报错;如果读取的properties配置文件有多个，可以使用`@PropertySource`的属性来指定多个
+
+#### @Bean
+
+| 名称 | @Bean                                  |
+| ---- | -------------------------------------- |
+| 类型 | 方法注解                               |
+| 位置 | 方法定义上方                           |
+| 作用 | 设置该方法的返回值作为spring管理的bean |
+| 属性 | value（默认）：定义bean的id            |
+
+#### @Import
+
+| 名称 | @Import                                                      |
+| ---- | ------------------------------------------------------------ |
+| 类型 | 类注解                                                       |
+| 位置 | 类定义上方                                                   |
+| 作用 | 导入配置类                                                   |
+| 属性 | value（默认）：定义导入的配置类类名，<br/>当配置类有多个时使用数组格式一次性导入多个配置类 |
+
+### 11、spring整合mybatis
+
+建表
+
+```sql
+CREATE TABLE `tbl_account` (
+  `id` int DEFAULT NULL,
+  `name` varchar(256) DEFAULT NULL,
+  `money` double DEFAULT NULL
+);
+```
+
+#### (1)pom.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ransibi</groupId>
+    <artifactId>spring_mybatis</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>5.2.10.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.1.16</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.5.6</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.26</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>5.2.10.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>1.3.0</version>
+        </dependency>
+         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>
+```
+
+#### (2)连接配置类
+
+```java
+package com.ransibi.config;
+
+import com.alibaba.druid.pool.DruidDataSource;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+
+import javax.sql.DataSource;
+
+
+public class JdbcConfig {
+    @Value("${jdbc.driver}")
+    private String driver;
+    @Value("${jdbc.url}")
+    private String url;
+    @Value("${jdbc.username}")
+    private String userName;
+    @Value("${jdbc.password}")
+    private String password;
+
+    @Bean
+    public DataSource dataSource(){
+        DruidDataSource ds = new DruidDataSource();
+        ds.setDriverClassName(driver);
+        ds.setUrl(url);
+        ds.setUsername(userName);
+        ds.setPassword(password);
+        return ds;
+    }
+}
+```
+
+```java
+package com.ransibi.config;
+
+import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.mapper.MapperScannerConfigurer;
+import org.springframework.context.annotation.Bean;
+
+import javax.sql.DataSource;
+
+public class MybatisConfig {
+    //定义bean，SqlSessionFactoryBean，用于产生SqlSessionFactory对象
+    @Bean
+    public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource){
+        SqlSessionFactoryBean ssfb = new SqlSessionFactoryBean();
+        ssfb.setTypeAliasesPackage("com.ransibi.domain");
+        ssfb.setDataSource(dataSource);
+        return ssfb;
+    }
+    //定义bean，返回MapperScannerConfigurer对象
+    @Bean
+    public MapperScannerConfigurer mapperScannerConfigurer(){
+        MapperScannerConfigurer msc = new MapperScannerConfigurer();
+        msc.setBasePackage("com.ransibi.dao");
+        return msc;
+    }
+}
+```
+
+```java
+package com.ransibi.config;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
+
+@Configuration
+@ComponentScan("com.ransibi")
+@PropertySource("classpath:jdbc.properties")
+@Import({JdbcConfig.class, MybatisConfig.class})
+public class SpringConfig {
+}
+
+```
+
+#### (3)实体类
+
+```java
+package com.ransibi.domain;
+import lombok.Data;
+
+@Data
+public class Account {
+    private Integer id;
+    private String name;
+    private Double money;
+}
+```
+
+#### (4)jdbc配置文件
+
+#### jdbc.properties
+
+```properties
+jdbc.driver=com.mysql.cj.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost:3306/spring_db?useSSL=false&serverTimezone=UTC
+jdbc.username=root
+jdbc.password=mysql0925
+```
+
+#### (5)操作mapper
+
+```java
+package com.ransibi.dao;
+import com.ransibi.domain.Account;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
+
+@Mapper
+public interface AccountDao {
+
+    @Insert("insert into tbl_account(name,money)values(#{name},#{money})")
+    void save(Account account);
+
+    @Delete("delete from tbl_account where id = #{id} ")
+    void delete(Integer id);
+
+    @Update("update tbl_account set name = #{name} , money = #{money} where id = #{id} ")
+    void update(Account account);
+
+    @Select("select * from tbl_account")
+    List<Account> findAll();
+
+    @Select("select * from tbl_account where id = #{id} ")
+    Account findById(Integer id);
+}
+```
+
+#### (6)service接口
+
+```java
+package com.ransibi.service;
+
+import com.ransibi.domain.Account;
+
+import java.util.List;
+
+public interface AccountService {
+
+    void save(Account account);
+
+    void delete(Integer id);
+
+    void update(Account account);
+
+    List<Account> findAll();
+
+    Account findById(Integer id);
+
+}
+```
+
+#### (7)实现类
+
+```java
+package com.ransibi.service.impl;
+import com.ransibi.dao.AccountDao;
+import com.ransibi.domain.Account;
+import com.ransibi.service.AccountService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+@Service
+public class AccountServiceImpl implements AccountService {
+
+    @Autowired
+    private AccountDao accountDao;
+
+
+    public void save(Account account) {
+        accountDao.save(account);
+    }
+
+    public void update(Account account) {
+        accountDao.update(account);
+    }
+
+    public void delete(Integer id) {
+        accountDao.delete(id);
+    }
+
+    public Account findById(Integer id) {
+        return accountDao.findById(id);
+    }
+
+    public List<Account> findAll() {
+        return accountDao.findAll();
+    }
+}
+```
+
+#### (8)main方法
+
+```java
+package com.ransibi;
+
+import com.ransibi.config.SpringConfig;
+import com.ransibi.domain.Account;
+import com.ransibi.service.AccountService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class App2 {
+    public static void main(String[] args) {
+        ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringConfig.class);
+        AccountService accountService = ctx.getBean(AccountService.class);
+        Account ac = accountService.findById(1);
+        System.out.println(ac);
+    }
+}
+```
+
+```
+Account{id=1, name='zhangsan ', money=100.0}
+```
+
