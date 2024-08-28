@@ -5,13 +5,13 @@ tags: spring
 categories: spring相关
 ---
 
-### 1、Spring概述
+### Spring概述
 
 官网: https://spring.io/
 
 Spring 是于 2003 年兴起的一个轻量级的 Java 开发框架，它是为了解决企业应用开发的复杂性而创建的。spring的核心是控制反转(ioc)和面向切面编程(aop)。Ioc 可以降低业务对象之间耦合度。IoC 使得主业务在相互调用过程中，不用再自己维护关系了，即不用再自己创建要使用的对象了。而是由 Spring 容器统一管理，自动“注入”,注入即赋值。 而 AOP 使得系统级服务得到了最大复用，且不用再由程序员手工将系统级服务“混杂”到主业务逻辑中了，而是由 Spring 容器统一完成“织入”。
 
-### 2、IOC-控制反转
+### IOC-控制反转
 
 控制反转IoC(Inversion of Control） 是一个概念，是一种思想。指将传统上由程序代码直接操控的对象调用权交给容器，通过容器来实现对象的装配和管理。控制反转就是对象控制权的转移，从程序代码本身反转到了外部容器。通过容器实现对象的创建，属性赋值， 依赖的管理。IoC 是一个概念，是一种思想，其实现方式多种多样。当前比较流行的实现方式是依赖注入。Spring对IOC思想进行了实现。
 
@@ -21,7 +21,7 @@ Spring 是于 2003 年兴起的一个轻量级的 Java 开发框架，它是为�
 * 被创建或被管理的对象在IOC容器中统称为==Bean==
 * IOC容器中放的就是一个个的Bean对象
 
-### 3、DI-依赖注入
+### DI-依赖注入
 
 在容器中建立bean与bean之间的依赖关系的整个过程，称为依赖注入。
 
@@ -379,7 +379,7 @@ public class BookDaoImpl implements BookDao {
 
 property标签表示setter方式注入，构造方式注入constructor-arg标签内部也可以写`<array>`、`<list>`、`<set>`、`<map>`、`<props>`标签
 
-### 4、ioc、di案例
+### ioc、di案例
 
 依赖:
 
@@ -491,7 +491,7 @@ book service save ...
 book dao save ...
 ```
 
-### 5、ioc中bean的相关内容-基于xml方式
+### ioc中bean的相关内容-基于xml方式
 
 #### bean的基础配置-基于xml方式
 
@@ -573,7 +573,7 @@ public class BookServiceImpl implements BookService, InitializingBean, Disposabl
 }
 ```
 
-### 6、注解+xml开发
+### 注解+xml开发
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -643,7 +643,7 @@ book dao save ...
 
 三个注解的作用都是一样的，将bean交给spring去管理，主要作用就是区分这个类属于控制表现层(@Controller)还是业务处理层(@Service)还是数据层(@Repository)
 
-### 7、纯注解开发模式（ver > = spring3.0） 
+### 纯注解开发模式（ver > = spring3.0） 
 
 ```java
 package com.ransibi.config;
@@ -702,7 +702,7 @@ public class Main {
 book dao save ...
 ```
 
-### 8、纯注解开发bean相关内容
+### 纯注解开发bean相关内容
 
 #### bean作用范围
 
@@ -829,9 +829,9 @@ com.ransibi.dao.impl.BookDaoImpl@593aaf41
 destroy ...
 ```
 
-### 9、纯注解开发依赖注入
+### 纯注解开发依赖注入
 
-#### (1)setter注入-无效
+#### setter注入-无效
 
 ```java
 package com.ransibi.service.impl;
@@ -858,7 +858,7 @@ public class BookServiceImpl implements BookService {
 
 ![image-20240827174024627](spring学习/image-20240827174024627.png)
 
-#### (2)构造方法注入-有效
+#### 构造方法注入-有效
 
 ```java
 package com.ransibi.service.impl;
@@ -891,7 +891,7 @@ book dao save ...
 destroy ...
 ```
 
-#### (3)自动装配注解
+#### 自动装配注解
 
 spring提供了@Autowired来自动装配bean
 
@@ -937,7 +937,7 @@ destroy ...
 隐藏依赖关系.
 ```
 
-### 10、拓展注解了解
+### 拓展注解了解
 
 #### @Qualifier
 
@@ -1023,7 +1023,7 @@ public class SpringConfig {
 | 作用 | 导入配置类                                                   |
 | 属性 | value（默认）：定义导入的配置类类名，<br/>当配置类有多个时使用数组格式一次性导入多个配置类 |
 
-### 11、spring整合mybatis
+### spring整合mybatis
 
 建表
 
@@ -1035,7 +1035,7 @@ CREATE TABLE `tbl_account` (
 );
 ```
 
-#### (1)pom.xml
+#### pom.xml
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -1097,7 +1097,7 @@ CREATE TABLE `tbl_account` (
 </project>
 ```
 
-#### (2)连接配置类
+#### 连接配置类
 
 ```java
 package com.ransibi.config;
@@ -1176,7 +1176,7 @@ public class SpringConfig {
 
 ```
 
-#### (3)实体类
+#### 实体类
 
 ```java
 package com.ransibi.domain;
@@ -1190,7 +1190,7 @@ public class Account {
 }
 ```
 
-#### (4)jdbc配置文件
+#### jdbc配置文件
 
 #### jdbc.properties
 
@@ -1201,7 +1201,7 @@ jdbc.username=root
 jdbc.password=mysql0925
 ```
 
-#### (5)操作mapper
+#### 操作mapper
 
 ```java
 package com.ransibi.dao;
@@ -1230,7 +1230,7 @@ public interface AccountDao {
 }
 ```
 
-#### (6)service接口
+#### service接口
 
 ```java
 package com.ransibi.service;
@@ -1254,7 +1254,7 @@ public interface AccountService {
 }
 ```
 
-#### (7)实现类
+#### 实现类
 
 ```java
 package com.ransibi.service.impl;
@@ -1294,7 +1294,7 @@ public class AccountServiceImpl implements AccountService {
 }
 ```
 
-#### (8)main方法
+#### main方法
 
 ```java
 package com.ransibi;
@@ -1321,11 +1321,11 @@ Account{id=1, name='zhangsan ', money=100.0}
 
 ### AOP
 
-#### 1、概述
+#### 概述
 
 AOP 为 Aspect Oriented Programming 的缩写，意为：面向切面编程，可通过运行期动态代理实现程序功能的统一维护的一种技术。AOP 是 Spring 框架中的一个重要内容。利用 AOP 可以对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率。面向切面编程是从动态角度考虑程序运行过程。AOP 底层，就是采用动态代理模式实现的。采用了两种代理：JDK 的动态代理，与 CGLIB的动态代理。（AOP是在不改原有代码的前提下对其进行增强）
 
-#### 2、核心概念
+#### 核心概念
 
 - 连接点
 
@@ -1353,7 +1353,7 @@ AOP 为 Aspect Oriented Programming 的缩写，意为：面向切面编程，�
 
   
 
-#### 3、入门例子
+#### 入门例子
 
 ```xml
     <dependencies>
@@ -1535,7 +1535,7 @@ book dao update ...
 | 位置 | 通知方法定义上方                                             |
 | 作用 | 设置当前通知方法与切入点之间的绑定关系，当前通知方法在原始切入点方法前运行 |
 
-#### 4、AOP工作流程
+#### AOP工作流程
 
 - spring容器启动
 
@@ -1568,7 +1568,7 @@ book dao update ...
 
   如果目标对象中的方法不被增强，那么容器中将存入的是目标对象本身。
 
-#### 5、AOP配置管理
+#### AOP配置管理
 
 ##### aop切入点表达式
 
@@ -1798,7 +1798,7 @@ execution(* *..*Service+.*(..))
 
 ### Spring事务
 
-#### 1、jdbc配置类中配置事务管理器
+#### jdbc配置类中配置事务管理器
 
 ```java
 package com.ransibi.config;
@@ -1842,7 +1842,7 @@ public class JdbcConfig {
 }
 ```
 
-#### 2、spring配置类中开启注解式事务驱动
+#### spring配置类中开启注解式事务驱动
 
 ```java
 package com.ransibi.config;
@@ -1864,7 +1864,7 @@ public class SpringConfig {
 
 ```
 
-#### 3、接口中开启事务
+#### 接口中开启事务
 
  @Transactional
 
@@ -1876,7 +1876,7 @@ public interface AccountService {
 }
 ```
 
-#### 4、事务配置
+#### 事务配置
 
 ![image-20240829060809291](spring学习/1630250069844.png)
 
