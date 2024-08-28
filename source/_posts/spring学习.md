@@ -1508,6 +1508,33 @@ book dao save ...
 book dao update ...
 ```
 
+总结: 
+
+| 名称 | @EnableAspectJAutoProxy |
+| ---- | ----------------------- |
+| 类型 | 配置类注解              |
+| 位置 | 配置类定义上方          |
+| 作用 | 开启注解格式AOP功能     |
+
+| 名称 | @Aspect               |
+| ---- | --------------------- |
+| 类型 | 类注解                |
+| 位置 | 切面类定义上方        |
+| 作用 | 设置当前类为AOP切面类 |
+
+| 名称 | @Pointcut                   |
+| ---- | --------------------------- |
+| 类型 | 方法注解                    |
+| 位置 | 切入点方法定义上方          |
+| 作用 | 设置切入点方法              |
+| 属性 | value（默认）：切入点表达式 |
+
+| 名称 | @Before                                                      |
+| ---- | ------------------------------------------------------------ |
+| 类型 | 方法注解                                                     |
+| 位置 | 通知方法定义上方                                             |
+| 作用 | 设置当前通知方法与切入点之间的绑定关系，当前通知方法在原始切入点方法前运行 |
+
 #### 4、AOP工作流程
 
 - spring容器启动
@@ -1599,6 +1626,12 @@ execution(* *..*Service+.*(..))
 
 (2)后置通知: 追加功能到方法执行后,不管方法执行的过程中有没有抛出异常都会执行。
 
+| 名称 | @After                                                       |
+| ---- | ------------------------------------------------------------ |
+| 类型 | 方法注解                                                     |
+| 位置 | 通知方法定义上方                                             |
+| 作用 | 设置当前通知方法与切入点之间的绑定关系，当前通知方法在原始切入点方法后运行 |
+
 ```java
     //后置通知
     @After("pt()")
@@ -1607,9 +1640,15 @@ execution(* *..*Service+.*(..))
     }
 ```
 
-(3)环绕通知(重点)
+(3)**环绕通知(重点)**
 
 ​    包含两部分,⼀个"前置逻辑",⼀个"后置逻辑"。"前置逻辑"会先于 @Before 标识的通知方法执行,"后置逻辑"会晚于 @After 标识的通知方法执行。如果原始方法有异常，那么环绕通知后置逻辑不会执行，前置逻辑可以执行。
+
+| 名称 | @Around                                                      |
+| ---- | ------------------------------------------------------------ |
+| 类型 | 方法注解                                                     |
+| 位置 | 通知方法定义上方                                             |
+| 作用 | 设置当前通知方法与切入点之间的绑定关系，当前通知方法在原始切入点方法前后运行 |
 
 ![image-20240828165644453](spring学习/image-20240828165644453.png)
 
@@ -1638,6 +1677,12 @@ execution(* *..*Service+.*(..))
 
 (4)返回后通知: 追加功能到方法执行后，只有方法正常执行结束后才进行。方法执行的过程中如果出现了异常，那么返回后通知是不会被执行。后置通知是不管原始方法有没有抛出异常都会被执行。
 
+| 名称 | @AfterReturning                                              |
+| ---- | ------------------------------------------------------------ |
+| 类型 | 方法注解                                                     |
+| 位置 | 通知方法定义上方                                             |
+| 作用 | 设置当前通知方法与切入点之间绑定关系，当前通知方法在原始切入点方法正常执行完毕后执行 |
+
 ```java
    //返回后通知
     @AfterReturning("pt1()")
@@ -1648,6 +1693,12 @@ execution(* *..*Service+.*(..))
 
 (5)异常后通知: 追加功能到方法抛出异常后，只有方法执行出异常才进行
 
+| 名称 | @AfterThrowing                                               |
+| ---- | ------------------------------------------------------------ |
+| 类型 | 方法注解                                                     |
+| 位置 | 通知方法定义上方                                             |
+| 作用 | 设置当前通知方法与切入点之间绑定关系，当前通知方法在原始切入点方法运行抛出异常后执行 |
+
 ```java
     @AfterThrowing("pt1()")
     public void afterThrowing() {
@@ -1656,3 +1707,194 @@ execution(* *..*Service+.*(..))
 ```
 
 ##### aop通知获取数据
+
+(1)获取参数
+
+- 非环绕通知(前置、后置、返回后、抛出异常后通知)获取参数：使用JoinPoint来获取参数值
+
+```java
+    @Before("pt()")
+    public void before(JoinPoint jp) {
+        Object[] args = jp.getArgs();
+        System.out.println(Arrays.toString(args));
+        System.out.println("哈哈哈");
+    }
+```
+
+- 环绕通知获取参数：使用ProceedingJoinPoint来获取参数值
+
+  ```java
+      @Around("pt()")
+      public void around(ProceedingJoinPoint pjp) throws Throwable {
+          System.out.println("around before");
+          Object[] args = pjp.getArgs();
+          System.out.println("接收到的参数"+Arrays.toString(args));
+          //表示对原始操作的调用
+  //        pjp.proceed();
+          //对参数进行处理，修改原始方法的参数,一般用于对原始方法的参数进行拦截过滤或者其它处理
+          args[0] = 999;
+          pjp.proceed(args);
+          System.out.println("around after");
+      }
+  ```
+
+(2)获取返回值
+
+只有返回后通知和环绕通知可以获取返回值。
+
+- 返回后通知
+
+  ```java
+      @AfterReturning(value = "pt()",returning = "ret")
+      public void afterReturning(Object ret) {
+          System.out.println("afterReturning advice ..."+ret);
+      }
+  ```
+
+- 环绕通知
+
+  ```java
+      @Around("pt()")
+      public Object around1(ProceedingJoinPoint pjp) throws Throwable{
+          Object[] args = pjp.getArgs();
+          System.out.println(Arrays.toString(args));
+          args[0] = 666;
+          Object ret = pjp.proceed(args);
+          return ret;
+      }
+  ```
+
+(3)获取异常
+
+- 环绕通知-获取异常
+
+  ```java
+      @Around("pt()")
+      public Object around(ProceedingJoinPoint pjp) {
+          Object[] args = pjp.getArgs();
+          System.out.println(Arrays.toString(args));
+          args[0] = 666;
+          Object ret = null;
+          try {
+              ret = pjp.proceed(args);
+          } catch (Throwable e) {
+              System.out.println("有异常需要处理");
+              throw new RuntimeException(e);
+          }
+          return ret;
+      }
+  ```
+
+- 抛出异常后通知获取异常
+
+  ```java
+      @AfterThrowing(value = "pt()", throwing = "t")
+      public void afterThrowing(Throwable t) {
+          System.out.println("afterThrowing advice ..." + t);
+      }
+  ```
+
+  
+
+### Spring事务
+
+#### 1、jdbc配置类中配置事务管理器
+
+```java
+package com.ransibi.config;
+
+import com.alibaba.druid.pool.DruidDataSource;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+
+import javax.sql.DataSource;
+
+
+public class JdbcConfig {
+    @Value("${jdbc.driver}")
+    private String driver;
+    @Value("${jdbc.url}")
+    private String url;
+    @Value("${jdbc.username}")
+    private String userName;
+    @Value("${jdbc.password}")
+    private String password;
+
+    @Bean
+    public DataSource dataSource(){
+        DruidDataSource ds = new DruidDataSource();
+        ds.setDriverClassName(driver);
+        ds.setUrl(url);
+        ds.setUsername(userName);
+        ds.setPassword(password);
+        return ds;
+    }
+
+    //配置事务管理器，mybatis使用的是jdbc事务
+    @Bean
+    public PlatformTransactionManager transactionManager(DataSource dataSource){
+        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
+        transactionManager.setDataSource(dataSource);
+        return transactionManager;
+    }
+}
+```
+
+#### 2、spring配置类中开启注解式事务驱动
+
+```java
+package com.ransibi.config;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+@Configuration
+@ComponentScan("com.ransibi")
+@PropertySource("classpath:jdbc.properties")
+@Import({JdbcConfig.class, MybatisConfig.class})
+//开启注解式事务驱动
+@EnableTransactionManagement
+public class SpringConfig {
+}
+
+```
+
+#### 3、接口中开启事务
+
+ @Transactional
+
+```java
+public interface AccountService {
+    //配置当前接口方法具有事务
+    @Transactional
+    public void transfer(Double out, Double in) ;
+}
+```
+
+#### 4、事务配置
+
+![image-20240829060809291](spring学习/1630250069844.png)
+
+**rollbackFor介绍**
+
+Spring的事务只会对`Error异常`和`RuntimeException异常`及其子类进行事务回顾
+
+比如抛出io异常
+
+```
+@Transactional(rollbackFor = {IOException.class})
+```
+
+**propagation介绍**
+
+```
+	//propagation设置事务属性：传播行为设置为当前操作需要新事务
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+```
+
+开启一个新的事物，这样如果另一个事物用异常回滚了，我们开启的这个新事物也可以正常执行。
