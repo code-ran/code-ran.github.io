@@ -5,7 +5,7 @@ tags: spring
 categories: spring相关
 ---
 
-### 1、概述
+### 1、Spring概述
 
 官网: https://spring.io/
 
@@ -1319,3 +1319,340 @@ public class App2 {
 Account{id=1, name='zhangsan ', money=100.0}
 ```
 
+### AOP
+
+#### 1、概述
+
+AOP 为 Aspect Oriented Programming 的缩写，意为：面向切面编程，可通过运行期动态代理实现程序功能的统一维护的一种技术。AOP 是 Spring 框架中的一个重要内容。利用 AOP 可以对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率。面向切面编程是从动态角度考虑程序运行过程。AOP 底层，就是采用动态代理模式实现的。采用了两种代理：JDK 的动态代理，与 CGLIB的动态代理。（AOP是在不改原有代码的前提下对其进行增强）
+
+#### 2、核心概念
+
+- 连接点
+
+  程序执行过程中的任意位置，粒度为执行方法、抛出异常、设置变量等。
+
+- 切入点
+
+  匹配连接点的式子。
+
+- 通知
+
+  在切入点处执行的操作，也就是共性功能。
+
+- 通知类
+
+​       定义通知的类。
+
+- 切面
+
+  描述通知与切入点的对应关系。
+
+- 代理
+
+  SpringAOP是在不改变原有设计(代码)的前提下对其进行增强的，它的底层采用的是代理模式实现的，所以要对原始对象进行增强，就需要对原始对象创建代理对象，在代理对象中的方法把通知内容加进去，就实现了增强,这就是我们所说的代理(Proxy)。
+
+  
+
+#### 3、入门例子
+
+```xml
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>5.2.10.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.6</version>
+        </dependency>
+    </dependencies>
+```
+
+```java
+package com.ransibi.config;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+
+@Configuration
+@ComponentScan("com.ransibi")
+public class SpringConfig {
+}
+
+```
+
+```java
+package com.ransibi.dao;
+
+public interface BookDao {
+    public void save();
+    public void update();
+}
+```
+
+```java
+package com.ransibi.dao.impl;
+
+import com.ransibi.dao.BookDao;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
+@Service
+public class BookDaoImpl implements BookDao {
+
+    @Override
+    public void save() {
+        System.out.println(System.currentTimeMillis());
+        System.out.println("book dao save ...");
+    }
+
+    @Override
+    public void update() {
+        System.out.println("book dao update ...");
+    }
+}
+```
+
+```java
+package com.ransibi;
+
+
+import com.ransibi.config.SpringConfig;
+import com.ransibi.dao.BookDao;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class Main {
+    public static void main(String[] args) {
+        ApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
+        BookDao bookDao = context.getBean(BookDao.class);
+        bookDao.save();
+        System.out.println("=====================");
+        bookDao.update();
+    }
+}
+```
+
+```
+1724816934325
+book dao save ...
+=====================
+book dao update ...
+```
+
+如果想不改变原有接口实现的基础上，对update方法进行增强，执行update方法前也输出下当前时间。那么就需要通过aop进行实现；具体实现如下:
+
+通知类
+
+```java
+package com.ransibi.aop;
+
+
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Component;
+
+@Component
+//告诉spring这个类是用作aop的
+@Aspect
+public class Advice {
+
+    //定义通知
+    @Pointcut("execution(void com.ransibi.dao.BookDao.update())")
+    private void pointCut() {}
+
+    //通知和切入点绑定
+    @Before("pointCut()")
+    public void method() {
+        System.out.println(System.currentTimeMillis());
+    }
+}
+```
+
+配置类增加@EnableAspectJAutoProxy注解
+
+```java
+package com.ransibi.config;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+
+@Configuration
+@ComponentScan("com.ransibi")
+//开启注解版AOP的功能
+@EnableAspectJAutoProxy
+public class SpringConfig {
+}
+```
+
+运行main方法，update也打印了时间
+
+```
+1724816934325
+book dao save ...
+=====================
+1724816934331
+book dao update ...
+```
+
+#### 4、AOP工作流程
+
+- spring容器启动
+
+- 读取所有切面配置中的切入点
+
+- 初始化bean
+
+  匹配成功创建的就是原始对象的代理对象。匹配失败就创建原始对象。
+
+  ```java
+  System.out.println(bookDao.getClass());
+  ```
+
+  ```java
+  //原始对象
+  class com.ransibi.dao.impl.BookDaoImpl
+  //代理对象
+  class com.sun.proxy.$Proxy19
+  ```
+
+- 获取bean执行方法
+
+  获取的bean是原始对象时，调用方法并执行，完成操作。
+
+  获取的bean是代理对象时，根据代理对象的运行模式运行原始方法与增强的内容，完成操作。
+
+- 验证容器中是否为代理对象
+
+  如果目标对象中的方法会被增强，那么容器中将存入的是目标对象的代理对象。
+
+  如果目标对象中的方法不被增强，那么容器中将存入的是目标对象本身。
+
+#### 5、AOP配置管理
+
+##### aop切入点表达式
+
+(1)语法:
+
+```
+动作关键字(访问修饰符  返回值  包名.类/接口名.方法名(参数) 异常名）
+```
+
+```
+execution(public User com.ransibi.service.UserService.findById(int))
+execution(void com.ransibi.dao.BookDao.update())
+```
+
+(2)通配符
+
+使用通配符描述切入点，主要的目的就是简化之前的配置。
+
+```java
+*:单个独立的任意符号，可以独立出现，也可以作为前缀或者后缀的匹配符出现(常用)
+execution（public * com.ransibi.*.UserService.find*(*))
+匹配com.ransibi包下的任意包中的UserService类或接口中所有find开头的带有一个参数的方法
+    
+..：多个连续的任意符号，可以独立出现，常用于简化包名与参数的书写(常用)
+execution（public User com..UserService.findById(..))
+匹配com包下的任意包中的UserService类或接口中所有名称为findById的方法
+    
+    
++：专用于匹配子类类型
+execution(* *..*Service+.*(..))
+*Service+，表示所有以Service结尾的接口的子类。
+```
+
+##### aop通知类型
+
+接入点
+
+```java
+    @Pointcut("execution(void com.ransibi.dao.BookDao.update())")
+    private void pt(){}
+
+    @Pointcut("execution(int com.ransibi.dao.BookDao.select())")
+    private void pt1(){}
+```
+
+(1)前置通知: 追加功能到方法执行前。
+
+```java
+    //前置通知
+    @Before("pt()")
+    public void before() {
+        System.out.println("前置通知");
+    }
+```
+
+(2)后置通知: 追加功能到方法执行后,不管方法执行的过程中有没有抛出异常都会执行。
+
+```java
+    //后置通知
+    @After("pt()")
+    public void after() {
+        System.out.println("后置通知");
+    }
+```
+
+(3)环绕通知(重点)
+
+​    包含两部分,⼀个"前置逻辑",⼀个"后置逻辑"。"前置逻辑"会先于 @Before 标识的通知方法执行,"后置逻辑"会晚于 @After 标识的通知方法执行。如果原始方法有异常，那么环绕通知后置逻辑不会执行，前置逻辑可以执行。
+
+![image-20240828165644453](spring学习/image-20240828165644453.png)
+
+![image-20240828170011544](spring学习/image-20240828170011544.png)
+
+==**环绕通知注意事项**==
+
+1. 环绕通知必须依赖形参ProceedingJoinPoint才能实现对原始方法的调用，进而实现原始方法调用前后同时添加通知
+2. 通知中如果未使用ProceedingJoinPoint对原始方法进行调用将跳过原始方法的执行
+3. 对原始方法的调用可以不接收返回值，通知方法设置成void即可，如果接收返回值，最好设定为Object类型
+4. 原始方法的返回值如果是void类型，通知方法的返回值类型可以设置成void,也可以设置成Object
+5. 由于无法预知原始方法运行后是否会抛出异常，因此环绕通知方法必须要处理Throwable异常
+
+```java
+    //环绕通知
+    @Around("pt()")
+    public Object around(ProceedingJoinPoint pjp) throws Throwable {
+        //环绕通知需要在原始方法的前后进行增强，所以环绕通知就必须要能对原始操作进行调用
+        System.out.println("around before advice ...");
+        //表示对原始操作的调用
+        Object ret = pjp.proceed();
+        System.out.println("around after advice ...");
+        return ret;
+    }
+```
+
+(4)返回后通知: 追加功能到方法执行后，只有方法正常执行结束后才进行。方法执行的过程中如果出现了异常，那么返回后通知是不会被执行。后置通知是不管原始方法有没有抛出异常都会被执行。
+
+```java
+   //返回后通知
+    @AfterReturning("pt1()")
+    public void afterReturning() {
+        System.out.println("返回后通知");
+    }
+```
+
+(5)异常后通知: 追加功能到方法抛出异常后，只有方法执行出异常才进行
+
+```java
+    @AfterThrowing("pt1()")
+    public void afterThrowing() {
+        System.out.println("异常后通知");
+    }
+```
+
+##### aop通知获取数据
