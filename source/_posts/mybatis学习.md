@@ -910,7 +910,7 @@ public void testLikeTwo(){
 
 
 
-## 4.1  if 标签
+##  if 标签
 
 语法：
 
@@ -932,8 +932,6 @@ public void testLikeTwo(){
 </select>
 ```
 
-
-
 例子：
 
 ```java
@@ -945,6 +943,7 @@ List<Student> selectIf(Student student);
 ```xml
 <!--if
     test: 使用对象的属性值作为条件
+    and 和 or需要小写
 -->
 <select id="selectIf" resultType="com.bjpowernode.domain.Student">
     select * from student
@@ -959,9 +958,7 @@ List<Student> selectIf(Student student);
 </select>
 ```
 
-
-
-## 4.2 where 标签
+## where 标签
 
 使用if标签时，容易引起sql语句语法错误。  使用where标签解决if产生的语法问题。
 
@@ -976,8 +973,6 @@ where标签删除 和他最近的or 或者 and。
     <if test="条件2">sql语句2</if>
 </where>
 ```
-
-
 
 例子：
 
@@ -1005,9 +1000,27 @@ List<Student> selectWhere(Student student);
 </select>
 ```
 
+##choose标签
+
+类似if-else
+
+```xml
+select * from ****table
+<where>
+    <choose>
+        <when test="status != null">
+            and status = 1 
+        </when>
+        <otherwise>
+            and status  NOT IN (3,4)
+        </otherwise>
+    </choose>
+</where>
+```
 
 
-## 4.3 foreach 循环
+
+## foreach 循环
 
 使用foreach可以循环数组，list集合， 一般使用在in语句中。
 
@@ -1029,8 +1042,6 @@ item：集合成员， 自定义的变量。   Integer item  = idlist.get(i);// 
 separator：集合成员之间的分隔符。  sql.append(","); //集合成员之间的分隔符
 #{item 的值}：获取集合成员的值。
 ```
-
-
 
 第一种方式：
 
@@ -1072,8 +1083,6 @@ public void testSelectForeachOne(){
     }
 
 ```
-
-
 
 第二种方式：
 
@@ -1120,7 +1129,7 @@ List<Student> selectForeachTwo(List<Student> studentList);
             
 ```
 
-## 4.4 sql标签
+## sql标签
 
 sql标签标示 一段sql代码， 可以是表名，几个字段， where条件都可以， 可以在其他地方复用sql标签的内容。
 
@@ -1130,8 +1139,6 @@ sql标签标示 一段sql代码， 可以是表名，几个字段， where条件
 1) 在mapper文件中定义 sql代码片段 <sql id="唯一字符串">  部分sql语句  </sql>
 2）在其他的位置，使用include标签引用某个代码片段
 ```
-
-
 
 例如：
 
@@ -1174,6 +1181,37 @@ sql标签标示 一段sql代码， 可以是表名，几个字段， where条件
 
     </select>
 
+```
+
+复杂场景:sql标签配合include标签
+
+```java
+private List<String> codes = new ArrayList<>(Arrays.asList("1", "2", "3", "4", "5"));
+private Integer exceCode;
+
+```
+
+
+
+```xml
+    <sql id="codeConditions">
+        <foreach collection="codes" item="code" separator=" OR ">
+            (tcr.code_${code} = #{exceCode} AND tcr.result_${code} ${operator})
+        </foreach>
+    </sql>
+    
+    <include refid="codeConditions">
+        //将property绑定的属性和值传给sql标签，填充数据
+        <property name="operator" value="!= -1"/>
+    </include>
+    <include refid="codeConditions">
+        //将property绑定的属性和值传给sql标签，填充数据
+        <property name="operator" value="in (1,2)"/>
+    </include>
+    <include refid="codeConditions">
+        //将property绑定的属性和值传给sql标签，填充数据
+        <property name="operator" value=" = 0"/>
+    </include>
 ```
 
 
