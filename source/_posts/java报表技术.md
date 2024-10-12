@@ -5,9 +5,9 @@ tags: java报表技术
 categories: java报表技术相关
 ---
 
-### 报表技术
+## 报表技术
 
-#### Excel版本概述
+### Excel版本概述
 
 ```
 目前excel有两个大的版本:Excel2003和Excel2007及以上的版本
@@ -20,9 +20,9 @@ categories: java报表技术相关
 | 单sheet数据量（最多支持） | 行:65535，列: 256              | 行:1048576，列:16384          |
 | 特征                      | 存储容量有限                   | 基于xml压缩，占用率小，效率高 |
 
-#### 常见Excel操作工具
+### 常见Excel操作工具
 
-##### Apache POI
+#### Apache POI
 
 官网: https://poi.apache.org/index.html
 
@@ -576,4 +576,131 @@ public interface IUserService {
         return cellStyle;
     }
 ```
+
+##### 基于模版导出复杂Excel带图片
+
+(1)导出复杂Excel
+
+```java
+    @Override
+    public void downLoadFileInfo(Long id, HttpServletResponse response) throws Exception{
+        String templatePath = Class.class.getClass().getResource("/").getPath() + "template/user_info_template.xlsx";
+        Workbook workbook = new XSSFWorkbook(new File(templatePath));
+        Sheet sheetAt = workbook.getSheetAt(0);
+        User user = userMapper.selectByPrimaryKey(id);
+        //用户名
+        Cell cell = sheetAt.getRow(2).getCell(1);
+        cell.setCellValue(user.getUserName());
+        //手机号
+        sheetAt.getRow(3).getCell(1).setCellValue(user.getPhone());
+        //生日
+        sheetAt.getRow(4).getCell(1).setCellValue(user.getBirthdayFormat());
+        //工资
+        sheetAt.getRow(5).getCell(1).setCellValue(user.getSalary());
+        //入职日期、司龄
+        sheetAt.getRow(6).getCell(1).setCellValue(user.getHireDateFormat());
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date parse = simpleDateFormat.parse(user.getHireDateFormat());
+        long between = DateUtil.between(parse, date, DateUnit.DAY);
+        sheetAt.getRow(6).getCell(3).setCellValue(between);
+        //省份、城市
+        sheetAt.getRow(7).getCell(1).setCellValue(user.getProvince());
+        sheetAt.getRow(7).getCell(3).setCellValue(user.getCity());
+        //现住址
+        sheetAt.getRow(8).getCell(1).setCellValue(user.getAddress());
+        //导出的文件名称
+        String filename = "用户数据.xlsx";
+        //设置文件的打开方式和mime类型
+        ServletOutputStream outputStream = response.getOutputStream();
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes(), "ISO8859-1"));
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        workbook.write(outputStream);
+    }
+```
+
+![image-20241012134127632](java报表技术.assets/image-20241012134127632.png)
+
+(2)导出带图片
+
+POI主要提供了两个类来处理照片:
+
+Patriarch: 负责在表中创建图片
+
+ClientAnchor: 负责设置图片的大小位置
+
+```
+dx1 - the x coordinate within the first cell.//定义了图片在第一个cell内的偏移x坐标，既左上角所在cell的偏移x坐标，一般可设0
+dy1 - the y coordinate within the first cell.//定义了图片在第一个cell的偏移y坐标，既左上角所在cell的偏移y坐标，一般可设0
+dx2 - the x coordinate within the second cell.//定义了图片在第二个cell的偏移x坐标，既右下角所在cell的偏移x坐标，一般可设0
+dy2 - the y coordinate within the second cell.//定义了图片在第二个cell的偏移y坐标，既右下角所在cell的偏移y坐标，一般可设0
+
+col1 - the column (0 based) of the first cell.//第一个cell所在列，既图片左上角所在列
+row1 - the row (0 based) of the first cell.//图片左上角所在行
+col2 - the column (0 based) of the second cell.//图片右下角所在列
+row2 - the row (0 based) of the second cell.//图片右下角所在行
+```
+
+
+
+```java
+    @Override
+    public void downLoadFileInfo(Long id, HttpServletResponse response) throws Exception {
+        String templatePath = Class.class.getClass().getResource("/").getPath() + "template/user_info_template.xlsx";
+        Workbook workbook = new XSSFWorkbook(new File(templatePath));
+        Sheet sheetAt = workbook.getSheetAt(0);
+        User user = userMapper.selectByPrimaryKey(id);
+        //用户名
+        Cell cell = sheetAt.getRow(2).getCell(1);
+        cell.setCellValue(user.getUserName());
+        //手机号
+        sheetAt.getRow(3).getCell(1).setCellValue(user.getPhone());
+        //生日
+        sheetAt.getRow(4).getCell(1).setCellValue(user.getBirthdayFormat());
+        //工资
+        sheetAt.getRow(5).getCell(1).setCellValue(user.getSalary());
+        //入职日期、司龄
+        sheetAt.getRow(6).getCell(1).setCellValue(user.getHireDateFormat());
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date parse = simpleDateFormat.parse(user.getHireDateFormat());
+        long between = DateUtil.between(parse, date, DateUnit.DAY);
+        sheetAt.getRow(6).getCell(3).setCellValue(between);
+        //省份、城市
+        sheetAt.getRow(7).getCell(1).setCellValue(user.getProvince());
+        sheetAt.getRow(7).getCell(3).setCellValue(user.getCity());
+        //现住址
+        sheetAt.getRow(8).getCell(1).setCellValue(user.getAddress());
+
+        //输出图片
+        File rootPath = new File(ResourceUtils.getURL("classpath:").getPath());
+        String photoPath = rootPath + user.getPhoto();
+        // 先创建一个字节输出流
+        ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
+        // BufferedImage是一个带缓冲区图像类,主要作用是将一幅图片加载到内存中
+        BufferedImage bufferImg = ImageIO.read(new File(photoPath));
+        // 把读取到图像放入到输出流中
+        ImageIO.write(bufferImg, "jpg", byteArrayOut);
+        // 创建一个绘图控制类，负责画图
+        Drawing patriarch = sheetAt.createDrawingPatriarch();
+        // 指定把图片放到哪个位置
+//        ClientAnchor anchor = new XSSFClientAnchor(0, 0, 0, 0, 2, 2, 3, 5);
+        //填充图片结束行结束列+1
+        ClientAnchor anchor = new XSSFClientAnchor(0, 0, 0, 0, 2, 2, 4, 6);
+        // 开始把图片写入到sheet指定的位置
+        patriarch.createPicture(anchor, workbook.addPicture(byteArrayOut.toByteArray(), Workbook.PICTURE_TYPE_JPEG));
+
+        //导出的文件名称
+        String filename = "用户数据.xlsx";
+        //设置文件的打开方式和mime类型
+        ServletOutputStream outputStream = response.getOutputStream();
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes(), "ISO8859-1"));
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        workbook.write(outputStream);
+    }
+```
+
+![image-20241012142632668](java报表技术.assets/image-20241012142632668.png)
+
+##### 自定义导出模版引擎
 
