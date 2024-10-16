@@ -18,7 +18,7 @@ categories: java8相关
 
 #### 概述
 
-jdk新增的日期时间api位于java.time包下，并且是线程安全的。
+jdk8新增的日期时间api位于java.time包下，并且是线程安全的。
 
 #### LocalDate
 
