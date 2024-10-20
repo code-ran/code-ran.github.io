@@ -1,7 +1,7 @@
 ---
 title: maven的安装与配置
 date: 2021-10-31 03:28:14
-tags: maven
+tags: maven安装配置
 categories: maven相关
 ---
 
