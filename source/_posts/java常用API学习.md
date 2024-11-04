@@ -109,19 +109,127 @@ Calendar的方法：
 
 
 
-##### 4、Math类的使用
+##### Math类的使用
+
+Math类包含执行基本数字运算的方法，我们可以使用Math类完成基本的数学运算
+
+常用方法：
 
 ```java
-Math用于做数学运算。
-Math类中的方法全部是静态方法，直接用类名调用即可。
-方法：
-      方法名                                        说明                
-      public static int abs(int a)                  获取参数a的绝对值：
-      public static double ceil(double a)           向上取整
-      public static double floor(double a)          向下取整
-      public static double pow(double a, double b)  获取a的b次幂        
-      public static long round(double a)            四舍五入取整
+public static int abs(int a)                // 返回参数的绝对值
+public static double ceil(double a)          // 返回大于或等于参数的最小整数
+public static double floor(double a)          // 返回小于或等于参数的最大整数
+public static int round(float a)             // 按照四舍五入返回最接近参数的int类型的值
+public static int max(int a,int b)           // 获取两个int值中的较大值
+public static int min(int a,int b)           // 获取两个int值中的较小值
+public static double pow (double a,double b)    // 计算a的b次幂的值
+public static double random()               // 返回一个[0.0,1.0)的随机值
 ```
+
+```java
+//求绝对值
+int a = -1;
+int abs = Math.abs(a);
+//1
+System.out.println(abs);
+
+//向上取整
+double b = 1.1;
+double ceil = Math.ceil(b);
+//2.0
+System.out.println(ceil);
+
+//向下取整
+double c = 1.8;
+double floor = Math.floor(c);
+//1.0
+System.out.println(floor);
+
+//四舍五入，返回类型是int
+float d = 3.499f;
+int round = Math.round(d);
+//3
+System.out.println(round);
+
+//获取两个int值中的较大值
+int e = 3;
+int f = 9;
+int max = Math.max(e, f);
+//9
+System.out.println(max);
+
+//获取两个int值中的较小值
+int min = Math.min(e, f);
+//3
+System.out.println(min);
+
+//计算a的b次幂的值
+double pow = Math.pow(f, e);
+//729.0
+System.out.println(pow);
+
+//返回一个[0.0,1.0)的随机值
+double random = Math.random();
+//0.6244503376371364
+System.out.println(random);
+```
+
+##### System类的使用
+
+System包含了系统操作的一些常用的方法。比如获取当前时间所对应的毫秒值，再比如终止当前JVM等等
+
+常用方法
+
+```java
+public static long currentTimeMillis()			// 获取当前时间所对应的毫秒值（当前时间为0时区所对应的时间即就是英国格林尼治天文台旧址所在位置）
+public static void exit(int status)				// 终止当前正在运行的Java虚拟机，0表示正常退出，非零表示异常退出
+public static native void arraycopy(Object src,  int  srcPos, Object dest, int destPos, int length); // 进行数值元素copy
+```
+
+计算机的时间原点: 1970年1月1日 00:00:00  (汤普逊-贝尔实验室-c语言-重写unix)
+
+中国在东八区: 1970年1月1日 08:00:00
+
+```java
+        //从时间原点开始，到代码运行的时间点，一共过了多少毫秒
+        System.out.println(System.currentTimeMillis());
+
+        //0-正常停止，1-异常停止
+//        System.exit(1);
+//        System.out.println("hhhh");
+
+        // src:      源数组
+        // srcPos：  源数值的开始位置
+        // dest：    目标数组
+        // destPos： 目标数组开始位置
+        // length:   要复制的元素个数
+        // 定义源数组
+        int[] srcArray = {23, 45, 67, 89, 14, 56};
+
+        // 定义目标数组
+        int[] desArray = new int[10];
+
+        // 进行数组元素的copy: 把srcArray数组中从0索引开始的3个元素，从desArray数组中的1索引开始复制过去
+        System.arraycopy(srcArray, 0, desArray, 1, 3);
+```
+
+##### Runtime类的使用
+
+Runtime表示Java中运行时对象，可以获取到程序运行时设计到的一些信息
+
+常用方法
+
+```java
+public static Runtime getRuntime()		//当前系统的运行环境对象
+public void exit(int status)			//停止虚拟机
+public int availableProcessors()		//获得CPU的线程数
+public long maxMemory()				    //JVM能从系统中获取总内存大小（单位byte）
+public long totalMemory()				//JVM已经从系统中获取总内存大小（单位byte）
+public long freeMemory()				//JVM剩余内存大小（单位byte）
+public Process exec(String command) 	//运行cmd命令
+```
+
+
 
 ##### 5、BigDecimal大数据类
 
