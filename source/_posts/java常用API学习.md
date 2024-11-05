@@ -8,7 +8,7 @@ sticky: 1
 
 ####  java常用API学习
 
-##### 1、Date日期类:
+##### Date日期类:
 
 Date类在Java中代表的是系统当前此刻日期时间对象，java.util.Date包下。
 
@@ -64,7 +64,7 @@ Date类在Java中代表的是系统当前此刻日期时间对象，java.util.Da
 
 
 
-##### 3、日历类Calendar的使用
+##### 日历类Calendar的使用
 
 ```java
 Calendar代表了系统此刻日期对应的日历对象。
@@ -229,9 +229,221 @@ public long freeMemory()				//JVM剩余内存大小（单位byte）
 public Process exec(String command) 	//运行cmd命令
 ```
 
+##### Object类的使用
+
+所有类都直接或者间接的继承自该类。
+
+常用方法
+
+```java
+public String toString()				//返回该对象的字符串表示形式(可以看做是对象的内存地址值)
+public boolean equals(Object obj)		//比较两个对象地址值是否相等；true表示相同，false表示不相同
+protected Object clone()    			//对象克隆,默认浅克隆，使用hutool实现深克隆，或者自定义
+```
+
+```java
+package com.ransibi.apis;
+import java.util.Objects;
+public class Student implements Cloneable {
+    private String name;
+    private Integer age;
+
+    public Student() {
+    }
+
+    public Student(String name, Integer age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+
+    /**
+     * 重写之后的equals方法比较的就是对象内部的属性值
+     *
+     * @param o
+     * @return
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return Objects.equals(name, student.name) && Objects.equals(age, student.age);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age);
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+}
+```
+
+```java
+Object o = new Object();
+//getClass().getName() + "@" + Integer.toHexString(hashCode())
+//固定格式: @左边是哪个包下的哪个类，右边是地址值
+//java.lang.Object@77468bd9
+System.out.println(o.toString());
+//一般直接打印对象是地址值，如果需要看到属性值，需要重写toString方法，拼接属性值
+Student student = new Student("张三",20);
+System.out.println(student);
 
 
-##### 5、BigDecimal大数据类
+Student student1 = new Student("张三",20);
+//没有重写Student类时，使用的是Object父类里的equals方法，比较的是地址值(this == obj),
+//如果想比较对象中的属性是否相等，需要重写对象中的equals方法
+boolean result = student.equals(student1);
+//没重写前: false  重写后:true
+System.out.println(result);
+
+//Student需要重写clone方法并添加Cloneable的实现标记
+ Student stu2 = (Student) student1.clone();
+//Student{name='张三', age=20}
+ System.out.println(student1);
+//Student{name='张三', age=20}
+ System.out.println(stu2);
+```
+
+```
+(1)浅拷贝: 基本数据类型拷贝值，引用数据类型拷贝地址值。
+(2)深拷贝: 基本数据类型拷贝值，引用数据类型会重新创建一个对象将数据拷贝过去(如果是String类型并且不是通过new创建的首先会去常量池中找)，源对象与克隆后的对象地址值不一样。
+```
+
+```java
+package com.ransibi.apis;
+
+
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Objects;
+
+public class Student implements Serializable {
+    private String name;
+    private Integer age;
+    private int[] data;
+
+    public Student() {
+    }
+
+    public Student(String name, Integer age, int[] data) {
+        this.name = name;
+        this.age = age;
+        this.data = data;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public int[] getData() {
+        return data;
+    }
+
+    public void setData(int[] data) {
+        this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", data=" + Arrays.toString(data) +
+                '}';
+    }
+
+    /**
+     * 重写之后的equals方法比较的就是对象内部的属性值
+     *
+     * @param o
+     * @return
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return Objects.equals(name, student.name) && Objects.equals(age, student.age) && Arrays.equals(data, student.data);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(name, age);
+        result = 31 * result + Arrays.hashCode(data);
+        return result;
+    }
+}
+```
+
+```java
+Student student1 = new Student("张三",20,array1);
+//使用hutool的深拷贝,Student类需实现Serializable
+Student student2 = ObjectUtil.cloneByStream(student1);
+//深拷贝是直接创建新的对象，就算源对象被改变，克隆后的对象也不变
+int[] data = student1.getData();
+data[0] = 999;
+//Student{name='张三', age=20, data=[999, 2, 3, 4, 5, 6]}
+System.out.println(student1);
+//Student{name='张三', age=20, data=[1, 2, 3, 4, 5, 6]}
+System.out.println(student2);
+```
+
+##### Objects工具类
+
+在java.util包下。
+
+常用方法
+
+```java
+public static String toString(Object o) 					// 获取对象的字符串表现形式
+public static boolean equals(Object a, Object b)			// 比较两个对象是否相等
+public static boolean isNull(Object obj)					// 判断对象是否为null
+public static boolean nonNull(Object obj)					// 判断对象是否不为null
+```
+
+
+
+##### BigDecimal类
 
 浮点型(float、double)运算的时候直接进行 +  * / 可能会出现数据失真（精度问题）。
 BigDecimal可以解决浮点型运算数据失真的问题。
@@ -274,7 +486,7 @@ b2*b1:0.90
 b1/b2保留两位小数:0.90
 ```
 
-##### 6、包装类的使用
+##### 包装类的使用
 
 ```
 包装类可以把字符串类型的数值转换成对应的基本数据类型的值（真的很有用）
@@ -354,7 +566,7 @@ int it33 = it3.intValue(); // 手工拆箱
 int it333 = it3;
 ```
 
-##### 7、String类
+##### String类
 
 ```java
 String str = new String(" Hello World ");
@@ -408,7 +620,7 @@ boolean comStr = newStr.equalsIgnoreCase(str);
 System.out.println(comStr);
 ```
 
-##### 8、StringBuffer与StringBuilder
+##### StringBuffer与StringBuilder
 
 StringBuffer: 可变长字符串，JDK1.0提供，运行效率慢、线程安全；StringBuilder: 可变长字符串，JDK5.0提供，运行效率快、线程不安全。
 
