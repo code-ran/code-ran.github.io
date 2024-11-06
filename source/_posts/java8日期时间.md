@@ -1,26 +1,218 @@
 ---
-title: java8日期时间
+title: jdk7和jdk8日期时间
 date: 2024-10-14 14:15:14
-tags:  java8日期时间
+tags:  jdk7和jdk8日期时间
 categories: java8相关
 ---
 
-### jdk8日期时间类API
+### jdk7和jdk8日期时间类API
+
+#### JDK7日期时间
+
+##### Date类
+
+表示特定的瞬间，精确到毫秒。使用无参构造，可以自动设置当前系统时间的毫秒时刻；指定long类型的构造参数，可以自定义毫秒时刻。在java.util下
+
+```java
+// 创建日期对象，把当前的时间
+System.out.println(new Date()); // Tue Jan 16 14:37:35 CST 2020
+// 创建日期对象，把当前的毫秒值转成日期对象
+System.out.println(new Date(0L)); // Thu Jan 01 08:00:00 CST 1970 ---时间原点
+```
+
+常用方法
+
+```java
+public long getTime() 把日期对象转换成对应的时间毫秒值(时间戳)。获取的是日期对象从1970年1月1日 00:00:00到现在的毫秒值
+public void setTime(long time) 把方法参数给定的毫秒值设置给日期对象
+```
+
+```java
+//获取当前时间的时间戳(毫秒数)
+  Date date = new Date();
+  long nowDate = date.getTime();
+  long time = System.currentTimeMillis();
+  date.setTime(time);
+//时间戳转Date
+  long t = 1728960489590L;
+  Date date2 = new Date(t);
+  //Tue Oct 15 10:48:09 CST 2024
+  System.out.println(date2.toString());
+//将Date对象转换为 Instant 
+  Instant instant = date2.toInstant();
+  LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+```
+
+```java
+//昨天的时间
+Date date1 = new Date(date.getTime() -(60*60*24*1000));
+//after 之后
+boolean after = date.after(date1);
+System.out.println("今天是否在昨天之后:"+after);
+
+//before 之前
+boolean before = date1.before(date);
+System.out.println("昨天是否在今天之前:"+before);
+
+// -1:date1小,1:date1大,0:date2与date相等
+int i = date1.compareTo(date);
+System.out.println(i);
+//比较日期是否相等
+boolean equals = date1.equals(date);
+System.out.println(equals);
+```
+
+##### SimpleDateFormat类
+
+日期/时间格式化类，可以实现日期和字符串之间的转换和格式化。在java.text包下。
+
+```java
+格式化: 按照格式,Date -> String
+解析:  按照格式,String -> Date
+```
+
+格式规则
+
+| 标识字母（区分大小写） | 含义 |
+| ---------------------- | ---- |
+| y                      | 年   |
+| M                      | 月   |
+| d                      | 日   |
+| H                      | 时   |
+| m                      | 分   |
+| s                      | 秒   |
+
+常用方法
+
+```java
+public String format(Date date)：将Date对象格式化为字符串。
+public Date parse(String source)：将字符串解析为Date对象。
+```
+
+```java
+//时间格式化
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+try {
+    //格式化Date日期
+    String nowDateFormat = sdf.format(date);
+    System.out.println("当前时间格式化之后:"+nowDateFormat);
+    //解析字符串时间，将字符串时间转换成Date日期
+    Date parse = sdf.parse(nowDateFormat);
+    System.out.println(parse);
+} catch (ParseException e) {
+    throw new RuntimeException(e);
+}
+```
+
+##### Calendar类
+
+可以进行日期运算。它是一个抽象类，不能创建对象，我们可以使用它的子类：java.util.GregorianCalendar类。
+
+获取GregorianCalendar对象两种方式:
+
+```java
+(1)直接创建GregorianCalendar对象。
+(2)通过Calendar的静态方法getInstance()方法获取GregorianCalendar对象
+```
+
+常用方法
+
+```java
+//获取一个它的子类GregorianCalendar对象。
+public static Calendar getInstance()
+
+//获取某个字段的值。field参数表示获取哪个字段的值
+public int get(int field)
+
+//设置某个字段的值
+public void set(int field,int value)
+
+//为某个字段增加/减少指定的值
+public void add(int field,int amount)
+```
+
+```java
+public class TestDemo01 {
+    public static void main(String[] args) {
+        //1.获取一个GregorianCalendar对象
+        //获取子类对象
+        Calendar instance = Calendar.getInstance();
+
+        //2.打印子类对象
+        System.out.println(instance);
+
+        /**
+         * get方法
+         */
+        //3.获取属性
+        int year = instance.get(Calendar.YEAR);
+        //Calendar的月份值是0-11
+        int month = instance.get(Calendar.MONTH) + 1;
+        int day = instance.get(Calendar.DAY_OF_MONTH);
+
+        int hour = instance.get(Calendar.HOUR);
+        int minute = instance.get(Calendar.MINUTE);
+        int second = instance.get(Calendar.SECOND);
+
+        //返回值范围：1--7，分别表示："星期日","星期一","星期二",...,"星期六"
+        int week = instance.get(Calendar.DAY_OF_WEEK);
+
+        System.out.println(year + "年" + month + "月" + day + "日" +
+                hour + ":" + minute + ":" + second);
+        System.out.println(getWeek(week));
+
+        /**
+         * set方法
+         */
+        //设置属性——set(int field,int value):
+
+        //计算班长出生那天是星期几(假如班长出生日期为：1998年3月18日)
+        instance.set(Calendar.YEAR, 1998);
+        instance.set(Calendar.MONTH, 3 - 1);//转换为Calendar内部的月份值
+        instance.set(Calendar.DAY_OF_MONTH, 18);
+
+        int w = instance.get(Calendar.DAY_OF_WEEK);
+        System.out.println("班长出生那天是：" + getWeek(w));
+
+        /**
+         * add方法
+         */
+        //计算100天以后是哪年哪月哪日，星期几？
+        instance.add(Calendar.DAY_OF_MONTH, 100);
+
+        int y = instance.get(Calendar.YEAR);
+        int m = instance.get(Calendar.MONTH) + 1;
+        int d = instance.get(Calendar.DAY_OF_MONTH);
+
+        int wk = instance.get(Calendar.DAY_OF_WEEK);
+        System.out.println("100天后是：" + y + "年" + m + "月" + d + "日" + getWeek(wk));
+
+    }
+
+    public static String getWeek(int w) {
+        //w = 1 --- 7
+        String[] weekArray = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+        return weekArray[w - 1];
+    }
+}
+```
+
+#### JDK8新特性
 
 旧版日期时间存在的问题:
 
-1、设计很差：在java.util和java.sql的包中都有日期类，java.util.Date同时包含日期和时间，而ava.sql.Date仅包
+1、设计很差：在java.util和java.sql的包中都有日期类，java.util.Date同时包含日期和时间，而java.sql.Date仅包
 含日期。此外用于格式化和解析的类在java.text包中定义
 
 2、非线程安全：java.util.Date是非线程安全的，所有的日期类都是可变的，这是java日期类最大的问题之一。
 
 3、时区处理麻烦：日期类并不提供国际化，没有时区支持，因此java引入了java.util.Calendar和java.util.TimeZone类，但他们同样存在上述所有的问题。
 
-#### 概述
+##### 概述
 
 jdk8新增的日期时间api位于java.time包下，并且是线程安全的。
 
-#### LocalDate
+##### LocalDate
 
 ```java
     /**
@@ -41,7 +233,7 @@ jdk8新增的日期时间api位于java.time包下，并且是线程安全的。
     }
 ```
 
-#### LocalTime
+##### LocalTime
 
 ```java
     /**
@@ -62,7 +254,7 @@ jdk8新增的日期时间api位于java.time包下，并且是线程安全的。
     }
 ```
 
-#### LocalDateTime
+##### LocalDateTime
 
 ```java
     /**
@@ -97,7 +289,7 @@ jdk8新增的日期时间api位于java.time包下，并且是线程安全的。
     }
 ```
 
-#### 对日期时间的修改
+##### 对日期时间的修改
 
 ```java
     /**
@@ -144,7 +336,7 @@ jdk8新增的日期时间api位于java.time包下，并且是线程安全的。
     }
 ```
 
-#### 时间比较
+##### 时间比较
 
 ```java
     /**
@@ -169,7 +361,7 @@ jdk8新增的日期时间api位于java.time包下，并且是线程安全的。
     }
 ```
 
-#### 日期时间格式化
+##### 日期时间格式化
 
 ```java
 /**
@@ -190,7 +382,7 @@ public static void formatOrParseDate() {
 }
 ```
 
-#### Instant类 
+##### Instant类 
 
 ```java
    /**
@@ -229,7 +421,7 @@ public static void formatOrParseDate() {
     }
 ```
 
-#### 计算日期的差
+##### 计算日期的差
 
 ```java
     /**
@@ -247,7 +439,7 @@ public static void formatOrParseDate() {
     }
 ```
 
-#### 时间校正器
+##### 时间校正器
 
 ```java
     /**
@@ -264,7 +456,7 @@ public static void formatOrParseDate() {
     }
 ```
 
-#### 设置日期时间时区
+##### 设置日期时间时区
 
 ```java
     /**
