@@ -404,11 +404,11 @@ b1/b2保留两位小数:0.90
 
 (1)通过构造方法创建，支持int和String
 
-![image-20241106140354795](java常用API学习.assets/image-20241106140354795.png)
+![image-20241106140354795](java常用API学习/image-20241106140354795.png)
 
 (2)通过valueOf()方法创建,支持int和String和进制
 
-![image-20241106140532792](java常用API学习.assets/image-20241106140532792.png)
+![image-20241106140532792](java常用API学习/image-20241106140532792.png)
 
 ```java
 //通过构造方法创建
@@ -472,7 +472,7 @@ System.out.println(i9);
 2.通过String类的valueOf()静态方法转换,支持int、char、long等
 ```
 
-![image-20241106144148253](java常用API学习.assets/image-20241106144148253.png)
+![image-20241106144148253](java常用API学习/image-20241106144148253.png)
 
 ```java
 int i10 = 77;

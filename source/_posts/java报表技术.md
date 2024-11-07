@@ -70,7 +70,7 @@ api对象介绍
 
 (1)测试excel数据
 
-![image-20241006172452158](java报表技术.assets/image-20241006172452158.png)
+![image-20241006172452158](java报表技术/image-20241006172452158.png)
 
 ```java
     @PostMapping("/uploadExcel")
@@ -193,7 +193,7 @@ public interface IUserService {
 
 导出需求
 
-![image-20241006175433875](java报表技术.assets/image-20241006175433875.png)
+![image-20241006175433875](java报表技术/image-20241006175433875.png)
 
 ```java
     @GetMapping("/downLoadXlsxByPoi")
@@ -477,15 +477,15 @@ public interface IUserService {
 
 
 
-![image-20241006182024620](java报表技术.assets/image-20241006182024620.png)
+![image-20241006182024620](java报表技术/image-20241006182024620.png)
 
 ##### 基于模版导出Excel
 
 模版:user_template.xlsx
 
-![image-20241006185440976](java报表技术.assets/image-20241006185440976.png)
+![image-20241006185440976](java报表技术/image-20241006185440976.png)
 
-![image-20241006193542196](java报表技术.assets/image-20241006193542196.png)
+![image-20241006193542196](java报表技术/image-20241006193542196.png)
 
 ```java
    @Override
@@ -619,7 +619,7 @@ public interface IUserService {
     }
 ```
 
-![image-20241012134127632](java报表技术.assets/image-20241012134127632.png)
+![image-20241012134127632](java报表技术/image-20241012134127632.png)
 
 (2)导出带图片
 
@@ -700,7 +700,7 @@ row2 - the row (0 based) of the second cell.//图片右下角所在行
     }
 ```
 
-![image-20241012142632668](java报表技术.assets/image-20241012142632668.png)
+![image-20241012142632668](java报表技术/image-20241012142632668.png)
 
 ##### 自定义导出模版引擎
 
