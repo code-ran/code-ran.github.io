@@ -578,3 +578,34 @@ System.out.println(sb);
 sb.delete(11,15);
 System.out.println(sb);
 ```
+
+#### Arrays类的使用
+
+```java
+        /**
+         * Arrays类常用方法:
+         * toString(数组) ----将数组变成字符串
+         * binarySearch(数组,查找的长度) ----二分查找查找元素
+         * copyOf(原数组，新数组的长度) ---拷贝指定长度的数组
+         * copyOfRange(原数组，起始索引，结束索引) ---拷贝指定索引区间的数组,左闭右开区间
+         * fill(数组，元素) --数组填充
+         * sort(数组) ---默认升序，底层使用快速排序
+         * sort(数组,排序规则)
+         */
+        int[] array = {0, 1, 3, 5, 2};
+        //[0, 1, 3, 5, 2]
+        System.out.println(Arrays.toString(array));
+        //3
+        System.out.println(Arrays.binarySearch(array, 5));
+//        Arrays.sort(array);
+        //[0, 1, 2, 3, 5]
+        System.out.println(Arrays.toString(array));
+        Arrays.sort(array);
+        //[0, 1]
+        System.out.println(Arrays.toString(Arrays.copyOf(array, 2)));
+        //[0, 1, 3]
+        System.out.println(Arrays.toString(Arrays.copyOfRange(array, 0,3)));
+        Arrays.fill(array,999);
+        //[999, 999, 999, 999, 999]
+        System.out.println(Arrays.toString(array));
+```
