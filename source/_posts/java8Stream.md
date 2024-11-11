@@ -6,7 +6,7 @@ categories: java8相关
 
 ---
 
-# JDK8 Stream详解
+# JDK8 Stream
 
 ## 概念
 
@@ -529,4 +529,98 @@ testcvabdabaefgabcdjkljkl
 
 ```
 7
+```
+
+## 常用技巧
+
+### List转Map
+
+使用Collectors.toMap()方法，可以将List转成Map。
+
+```java
+        List<User> userList = new ArrayList<>();
+        userList.add(new User("张三","男", 20));
+        userList.add(new User("李四","女", 25));
+        userList.add(new User("王五","女", 28));
+        userList.add(new User("王五","男", 28));
+
+        /**
+         * List转Map
+         */
+        //适用于name唯一的情况，如果key有重复的，转换回出错
+//        Map<String, User> map = userList.stream().collect(Collectors.toMap(User::getName, k -> k));
+        //如果有重复的，使用需要加(k1, k2) -> k1 , 表示，如果有重复的key,则保留第一个，舍弃第二个
+        Map<String, User> map1 = userList.stream().collect(Collectors.toMap(User::getName, user -> user, (k1, k2) -> k1));
+        System.out.println(map1);
+```
+
+### groupingBy分组
+
+使用Collectors.groupingBy()方法，对List进行分组。
+
+```java
+List<User> userList = new ArrayList<>();
+userList.add(new User("张三", "男", 20));
+userList.add(new User("李四", "女", 25));
+userList.add(new User("王五", "女", 20));
+
+//按性别进行分组
+Map<String, List<User>> groupBySexMap = userList.stream().collect(Collectors.groupingBy(User::getSex));
+//{女=[User{name='李四', sex='女', age=25}, User{name='王五', sex='女', age=28}], 男=[User{name='张三', sex='男', age=20}]}
+System.out.println(groupBySexMap);
+
+Map<Integer, List<User>> groupByAgeMap = userList.stream().collect(Collectors.groupingBy(User::getAge));
+//{20=[User{name='张三', sex='男', age=20}, User{name='王五', sex='女', age=20}], 25=[User{name='李四', sex='女', age=25}]}
+System.out.println(groupByAgeMap);
+```
+
+### sorted+Comparator排序
+
+```java
+List<User> userList = new ArrayList<>();
+userList.add(new User("张三", "男", 20));
+userList.add(new User("李四", "女", 25));
+userList.add(new User("王五", "女", 20));
+
+/**
+ * sorted + Comparator实现排序
+ */
+//默认是升序
+userList = userList.stream().sorted(Comparator.comparing(User::getAge)).collect(Collectors.toList());
+//[User{name='张三', sex='男', age=20}, User{name='王五', sex='女', age=20}, User{name='李四', sex='女', age=25}]
+System.out.println(userList);
+//降序
+userList = userList.stream().sorted(Comparator.comparing(User::getAge, Comparator.reverseOrder())).collect(Collectors.toList());
+//[User{name='李四', sex='女', age=25}, User{name='张三', sex='男', age=20}, User{name='王五', sex='女', age=20}]
+System.out.println(userList);
+
+//按中文拼音首字母排序a(A) -> z(Z)
+Collator collator = Collator.getInstance(Locale.CHINA);
+userList = userList.stream().sorted(Comparator.comparing(User::getName, collator)).collect(Collectors.toList());
+//[User{name='李四', sex='女', age=25}, User{name='王五', sex='女', age=20}, User{name='张三', sex='男', age=20}]
+System.out.println(userList);
+
+//按中文拼音首字母排序z(Z) -> a(A)
+userList = userList.stream().sorted(Comparator.comparing(User::getName, Collections.reverseOrder(collator))).collect(Collectors.toList());
+//[User{name='张三', sex='男', age=20}, User{name='王五', sex='女', age=20}, User{name='李四', sex='女', age=25}]
+System.out.println(userList);
+
+//按多个属性排序
+userList = userList.stream().sorted(Comparator.comparing(User::getAge).thenComparing(User::getName, collator)).collect(Collectors.toList());
+//[User{name='王五', sex='女', age=20}, User{name='张三', sex='男', age=20}, User{name='李四', sex='女', age=25}]
+System.out.println(userList);
+```
+
+### Max+Min获取最值
+
+```java
+//求最大值
+Optional<User> max = userList.stream().max(Comparator.comparing(User::getAge));
+//User{name='李四', sex='女', age=25}
+max.ifPresent(obj -> System.out.println(obj));
+
+//求最小值
+Optional<User> min = userList.stream().min(Comparator.comparing(User::getAge));
+//User{name='王五', sex='女', age=20}
+min.ifPresent(obj -> System.out.println(obj));
 ```
