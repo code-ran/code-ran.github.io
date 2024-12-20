@@ -36,3 +36,8 @@ hexo s
 hexo d
 ```
 
+
+
+如果将博客仓库从public改成了private那么github pages就会挂掉。如果想要恢复，需要在setting里将私有改成共有，并在github pages页的部署分支进行切换。
+
+![image-20241219140500853](./hexo博客恢复/image-20241219140500853.png)
