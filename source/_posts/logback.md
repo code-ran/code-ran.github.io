@@ -454,3 +454,310 @@ Process finished with exit code 0
     <appender-ref ref="console"></appender-ref>
 </logger>
 ```
+
+#### SpringBoot中使用logback
+
+SpringBoot 默认就是使用SLF4J作为日志门面，Logback作为日志实现来记录日志。log4j和jul都桥接到了slf4j，且slf4j的实现是logback，所以springboot的日志默认使用的是slf4j+logback的。
+
+pom
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <version>2.4.5</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ransibi</groupId>
+    <artifactId>springboot_logback</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <!--设置jdk的版本 -->
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>1.8</source> <!-- 设置源代码的编译版本 -->
+                    <target>1.8</target> <!-- 设置生成的字节码版本 -->
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+```
+
+测试,默认级别是info
+
+```java
+@SpringBootTest
+public class MyTest {
+    @Test
+    public void test01() {
+        Logger logger = LoggerFactory.getLogger(MyTest.class);
+        logger.error("error信息");
+        logger.warn("warn信息");
+        logger.info("info信息");
+        logger.debug("debug信息");
+        logger.trace("trace信息");
+    }
+}
+```
+
+![image-20250115104256607](logback/image-20250115104256607.png)
+
+注意: 使用log4j和jul打印日志，同样还是logback的日志输出风格，是因为log4j-to-slf4j  和 jul-to-slf4j 桥接器在起作用。即使使用log4j和jul打印日志，依然会桥接到logback。
+
+##### 配置文件的使用
+
+application.properties
+
+```properties
+logging.level.com.ransibi=trace
+logging.pattern.console=%d{yyyy-MM-dd} %t [%level] - %m%n
+```
+
+或者使用application.yml
+
+```yaml
+server:
+  port: 8087
+
+logging:
+  level:
+    com.ransibi: trace
+  pattern:
+    console: "%d{yyyy-MM-dd} %t [%level] - %m%n"
+```
+
+![image-20250115105350008](logback/image-20250115105350008.png)
+
+##### 将日志输出到文件中
+
+```properties
+logging.file.path=D://github//utils_learn//springboot_logback//logs
+```
+
+或者
+
+```yaml
+logging:
+  level:
+    com.ransibi: trace
+  pattern:
+    console: "%d{yyyy-MM-dd} %t [%level] - %m%n"
+  file:
+    path: D://github//utils_learn//springboot_logback//logs
+```
+
+##### 日志拆分
+
+在resources目录下创建logback.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <!--
+        <property name="" value=""></property>
+        配置文件通用属性,通过${name}的形式取值
+    -->
+    <property name="pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %c %M %L %m%n"></property>
+
+    <property name="logDir" value="D://github//utils_learn//springboot_logback"></property>
+
+    <!-- 控制台Appender -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <!--
+            输出目标的配置，
+            System.out：以黑色字体（默认）
+            System.err：红色字体
+        -->
+        <target>
+            System.err
+        </target>
+        <!-- 日志输出格式 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+    </appender>
+    <!-- 可拆分、归档的文件-->
+    <appender name="roll" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/roll_logback.log</file>
+        <!-- 日志输出格式 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+        <!--指定拆分的规则 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--按照时间和压缩格式声明文件名,gz -->
+            <fileNamePattern>${logDir}/roll.%d{yyyy-MM-dd}.log%i.gz</fileNamePattern>
+            <!--按照文件大小进行拆分 -->
+            <maxFileSize>1KB</maxFileSize>
+        </rollingPolicy>
+    </appender>
+    <!--
+    自定义Logger
+    additivity="false" 表示不继承rootLogger
+  -->
+    <logger name="com.ransibi" level="info" additivity="false">
+        <appender-ref ref="console"></appender-ref>
+        <appender-ref ref="roll"></appender-ref>
+    </logger>
+
+</configuration>
+```
+
+测试类
+
+```java
+@Test
+public void test01() {
+    Logger logger = LoggerFactory.getLogger(MyTest.class);
+    for (int i = 0; i < 100; i++) {
+        logger.error("error信息");
+        logger.warn("warn信息");
+        logger.info("info信息");
+        logger.debug("debug信息");
+        logger.trace("trace信息");
+    }
+}
+```
+
+运行后对输出的日志进行了拆分
+
+![image-20250115112625199](logback/image-20250115112625199.png)
+
+##### 动态配置
+
+例如文件路径的动态配置:
+
+需要使用到logback中的contextListener来实现
+
+logback的configuration节点下定义contextListener节点
+
+```xml
+    <contextListener class="com.ransibi.listener.LogbackListener" />
+```
+
+定义监听类，继承ContextAwareBase类并实现LoggerContextListener, LifeCycle接口
+
+```java
+public class LogbackListener extends ContextAwareBase implements LoggerContextListener, LifeCycle {
+
+    private boolean started = false;
+
+    @Override
+    public boolean isResetResistant() {
+        return false;
+    }
+
+    @Override
+    public void onStart(LoggerContext loggerContext) {
+
+    }
+
+    @Override
+    public void onReset(LoggerContext loggerContext) {
+
+    }
+
+    @Override
+    public void onStop(LoggerContext loggerContext) {
+
+    }
+
+    @Override
+    public void onLevelChange(Logger logger, Level level) {
+
+    }
+
+    @Override
+    public void start() {
+        if (started) {
+            return;
+        }
+        Context context = getContext();
+        context.putProperty("logDir", getLogDirInfo());
+    }
+
+    private static String getLogDirInfo() {
+        String path = "D://github//utils_learn//springboot_logback//666";
+        return path;
+    }
+
+    @Override
+    public void stop() {
+
+    }
+
+    @Override
+    public boolean isStarted() {
+        return false;
+    }
+}
+```
+
+程序运行后在指定目录生成日志文件
+
+![image-20250115154350983](logback/image-20250115154350983.png)
+
+##### logback+lombok中@Slf4j注解
+
+注解在类上；为类提供一个 属性名为log 的日志对象。
+
+```java
+@SpringBootTest
+@Slf4j
+public class MyTest {
+    @Test
+    public void test01() {
+        Logger logger = LoggerFactory.getLogger(MyTest.class);
+        for (int i = 0; i < 100; i++) {
+            logger.error("error信息");
+            logger.warn("warn信息");
+            logger.info("info信息");
+            logger.debug("debug信息");
+            logger.trace("trace信息");
+        }
+    }
+
+    @Test
+    public void test02() {
+        log.error("error信息");
+        log.warn("warn信息");
+        log.info("info信息");
+        log.debug("debug信息");
+        log.trace("trace信息");
+    }
+}
+```
+
