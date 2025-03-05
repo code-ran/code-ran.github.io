@@ -1,7 +1,8 @@
 ---
 title: 本地部署deepseek
 date: 2025-02-19 23:41:15
-tags:
+tags: deepseek
+categories: AI相关
 ---
 
 #### deepseek本地部署
