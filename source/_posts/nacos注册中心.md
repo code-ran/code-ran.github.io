@@ -154,7 +154,7 @@ nacos默认是走轮询的负载均衡，如果想实现同集群优先的情况
 
 ```yaml
 #ribbon负责均衡规则配置
-userservice:
+users-ervice:
   ribbon:
     NFLoadBalancerRuleClassName: com.alibaba.cloud.nacos.ribbon.NacosRule # 负载均衡规则,同集群优先规则
 ```
