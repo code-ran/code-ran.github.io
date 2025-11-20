@@ -1,0 +1,407 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>shell学习 | 牛牛&amp;blog</title><meta name="author" content="牛牛"><meta name="copyright" content="牛牛"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Shell编程shell脚本编写格式shell脚本文件就是一个文本文件,  后缀名建议使用 .sh 结尾 格式: (1)首行需要设置shell解释器的类型 #!&#x2F;bin&#x2F;bash  (2)单行注释 # 注释内容  (3)多行注释 :&lt;&lt;!# 注释内容1# 注释内容2!  shell脚本执行方式sh解释器执行sh 脚本文件  bash解释器执行bash 脚本文件  仅路径执行脚本文件自己">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell学习">
+<meta property="og:url" content="https://code-ran.github.io/2025/04/11/shell%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="牛牛&amp;blog">
+<meta property="og:description" content="Shell编程shell脚本编写格式shell脚本文件就是一个文本文件,  后缀名建议使用 .sh 结尾 格式: (1)首行需要设置shell解释器的类型 #!&#x2F;bin&#x2F;bash  (2)单行注释 # 注释内容  (3)多行注释 :&lt;&lt;!# 注释内容1# 注释内容2!  shell脚本执行方式sh解释器执行sh 脚本文件  bash解释器执行bash 脚本文件  仅路径执行脚本文件自己">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+<meta property="article:published_time" content="2025-04-11T07:07:44.000Z">
+<meta property="article:modified_time" content="2025-11-15T16:27:00.451Z">
+<meta property="article:author" content="牛牛">
+<meta property="article:tag" content="shell学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><link rel="shortcut icon" href="/img/myfavicon.png"><link rel="canonical" href="https://code-ran.github.io/2025/04/11/shell%E5%AD%A6%E4%B9%A0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'shell学习',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-11-16 00:27:00'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/style.css"><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/ys.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">70</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">44</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">37</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">牛牛&amp;blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">shell学习</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-04-11T07:07:44.000Z" title="发表于 2025-04-11 15:07:44">2025-04-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-11-15T16:27:00.451Z" title="更新于 2025-11-16 00:27:00">2025-11-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/shell%E7%9B%B8%E5%85%B3/">shell相关</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="shell学习"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="Shell编程"><a href="#Shell编程" class="headerlink" title="Shell编程"></a>Shell编程</h3><h4 id="shell脚本编写格式"><a href="#shell脚本编写格式" class="headerlink" title="shell脚本编写格式"></a>shell脚本编写格式</h4><p>shell脚本文件就是一个文本文件,  后缀名建议使用 <code>.sh</code> 结尾</p>
+<p>格式:</p>
+<p>(1)首行需要设置shell解释器的类型</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br></pre></td></tr></table></figure>
+
+<p>(2)单行注释</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">注释内容</span></span><br></pre></td></tr></table></figure>
+
+<p>(3)多行注释</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">:&lt;&lt;!</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">注释内容1</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">注释内容2</span></span><br><span class="line">!</span><br></pre></td></tr></table></figure>
+
+<h4 id="shell脚本执行方式"><a href="#shell脚本执行方式" class="headerlink" title="shell脚本执行方式"></a>shell脚本执行方式</h4><h5 id="sh解释器执行"><a href="#sh解释器执行" class="headerlink" title="sh解释器执行"></a>sh解释器执行</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sh 脚本文件</span><br></pre></td></tr></table></figure>
+
+<h5 id="bash解释器执行"><a href="#bash解释器执行" class="headerlink" title="bash解释器执行"></a>bash解释器执行</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">bash 脚本文件</span><br></pre></td></tr></table></figure>
+
+<h5 id="仅路径执行"><a href="#仅路径执行" class="headerlink" title="仅路径执行"></a>仅路径执行</h5><p>脚本文件自己执行需要具有可执行权限, 否则无法执行。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./ 脚本文件</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="Shell变量"><a href="#Shell变量" class="headerlink" title="Shell变量"></a>Shell变量</h4><h5 id="系统环境变量"><a href="#系统环境变量" class="headerlink" title="系统环境变量"></a>系统环境变量</h5><p>是系统提供的共享变量，共享给所有的Shell程序使用。</p>
+<p>shell配置文件分类:</p>
+<p>(1)全局配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/etc/profile</span><br><span class="line">/etc/profile.d/*.sh</span><br><span class="line">/etc/bashrc</span><br></pre></td></tr></table></figure>
+
+<p>(2)用户配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">当前用户/.bash_profile</span><br><span class="line">当前用户/.bashrc</span><br></pre></td></tr></table></figure>
+
+<p>查看当前系统环境变量</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">env</span><br></pre></td></tr></table></figure>
+
+<p>查看系统环境变量和自定义变量</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">set</span><br></pre></td></tr></table></figure>
+
+<h6 id="常用系统环境变量"><a href="#常用系统环境变量" class="headerlink" title="常用系统环境变量"></a>常用系统环境变量</h6><table>
+<thead>
+<tr>
+<th>变量名称</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PATH</td>
+<td>与windows环境变量PATH功能一样，设置命令的搜索路径，以冒号为分割</td>
+</tr>
+<tr>
+<td>HOME</td>
+<td>显示当前用户主目录：/root</td>
+</tr>
+<tr>
+<td>SHELL</td>
+<td>显示当前shell解析器类型：/bin/bash</td>
+</tr>
+<tr>
+<td>HISTFILE</td>
+<td>显示当前用户执行命令的历史列表文件：/root/.bash_history</td>
+</tr>
+<tr>
+<td>PWD</td>
+<td>显示当前所在路径：/root</td>
+</tr>
+<tr>
+<td>OLDPWD</td>
+<td>显示之前的路径</td>
+</tr>
+<tr>
+<td>HOSTNAME</td>
+<td>显示当前主机名：itheima</td>
+</tr>
+<tr>
+<td>HOSTTYPE</td>
+<td>显示主机的架构，是i386、i686、还是x86、x64等：x86_64</td>
+</tr>
+<tr>
+<td>LANG</td>
+<td>显示当前系统语言环境：zh_CN.UTF-8</td>
+</tr>
+</tbody></table>
+<p><img src="/2025/04/11/shell%E5%AD%A6%E4%B9%A0/github\code-ran.github.io\source_posts\shell学习.assets\image-20250406123802051.png" alt="image-20250406123802051"></p>
+<h5 id="自定义变量"><a href="#自定义变量" class="headerlink" title="自定义变量"></a>自定义变量</h5><h6 id="自定义局部变量"><a href="#自定义局部变量" class="headerlink" title="自定义局部变量"></a>自定义局部变量</h6><p>定义在一个脚本文件中的变量, 只能在这个脚本文件中使用的变量, 就是局部变量。</p>
+<p>(1)语法格式</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">var_name=value</span><br></pre></td></tr></table></figure>
+
+<p>命名规则</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. 变量名称可以有字母,数字和下划线组成, 但是不能以数字开头</span><br><span class="line">2. 等号两侧不能有空格</span><br><span class="line">3. 在bash环境中, 变量的默认类型都是字符串类型, 无法直接进行数值运算</span><br><span class="line">4. 变量的值如果有空格, 必须使用双引号括起来</span><br><span class="line">5. 不能使用Shell的关键字作为变量名称</span><br></pre></td></tr></table></figure>
+
+<p>(2)查询变量语法</p>
+<p>直接使用变量名查询</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">var_name</span></span><br></pre></td></tr></table></figure>
+
+<p>使用花括号,花括号方式适合拼接字符串</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">&#123;var_name&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>(3)变量删除</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">unset var_name</span><br></pre></td></tr></table></figure>
+
+<h6 id="自定义常量"><a href="#自定义常量" class="headerlink" title="自定义常量"></a>自定义常量</h6><p>变量设置值以后不可以修改的变量叫常量。</p>
+<p>(1)语法格式</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">readonly var_name</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/11/shell%E5%AD%A6%E4%B9%A0/github\code-ran.github.io\source_posts\shell学习.assets\image-20250406124855833.png" alt="image-20250406124855833"></p>
+<h6 id="自定义全局变量"><a href="#自定义全局变量" class="headerlink" title="自定义全局变量"></a>自定义全局变量</h6><p>在当前脚本文件中定义全局变量, 这个全局变量可以在当前Shell环境与子Shell环境中使用。</p>
+<p>(1)父子shell环境</p>
+<p>如果a.sh脚本文件中，执行了b.sh脚本文件，那么a.sh就是父shell环境.</p>
+<p>(2)语法格式:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export var1 var2</span><br></pre></td></tr></table></figure>
+
+<p>例子</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">1. 创建2个脚本文件 demo2.sh 和 demo3.sh</span><br><span class="line"></span><br><span class="line">2. 编辑demo2.sh </span><br><span class="line"></span><br><span class="line">   命令1:定义全局变量VAR4</span><br><span class="line"></span><br><span class="line">   命令2: 执行demo3.sh脚本文件</span><br><span class="line"></span><br><span class="line">3. 编辑demo3.sh</span><br><span class="line"></span><br><span class="line">   输出全局变量VAR4</span><br><span class="line"></span><br><span class="line">4. 执行demo2.sh脚本文件</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/11/shell%E5%AD%A6%E4%B9%A0/github\code-ran.github.io\source_posts\shell学习.assets\image-20250406131443261.png" alt="image-20250406131443261"></p>
+<h5 id="特殊变量"><a href="#特殊变量" class="headerlink" title="特殊变量"></a>特殊变量</h5><p>(1)$n</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">n</span></span><br></pre></td></tr></table></figure>
+
+<p>用于接收脚本文件执行时传入的参数，**$0 用于获取当前脚本文件名称的<strong>，</strong>$1~$9, 代表获取第一输入参数到第9个输入参数**，第10个以上的输入参数获取参数的格式: <strong>${数字}</strong>, 否则无法获取</p>
+<p>(2)执行脚本文件传入参数语法</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sh 脚本文件 输入参数1 输入参数2 ...</span><br></pre></td></tr></table></figure>
+
+<p>(3)例子</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. 创建脚本文件demo4.sh</span><br><span class="line">2. 编辑demo4.sh的文件内容</span><br><span class="line"># 命令1: 打印当前脚本文件名字</span><br><span class="line"># 命令2: 打印第1个输入参数</span><br><span class="line"># 命令3: 打印第2个输入参数</span><br><span class="line"># 命令4: 打印第10个输入参数</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/11/shell%E5%AD%A6%E4%B9%A0/github\code-ran.github.io\source_posts\shell学习.assets\image-20250406132616345.png" alt="image-20250406132616345"></p>
+<p>(2)$#</p>
+<p>获取所有输入参数的个数</p>
+<p>(3)$*和$@</p>
+<p>都是获取所有输入参数, 用于以后输出所有参数。如果使用了双引号<code>$@</code>获取的就是参数列表对象, 每个参数都是一个独立字符串。</p>
+<p>(4)$?</p>
+<p>用于获取上一个Shell命令的退出状态码, 或者是函数的返回值。每个Shell命令的执行都有一个返回值, 这个返回值用于说明命令执行是否成功。一般来说, 返回0代表命令执行成功, 非0代表执行失败。</p>
+<p>(5)$$</p>
+<p>用于获取当前Shell环境的进程ID号</p>
+<h4 id="自定义系统环境变量"><a href="#自定义系统环境变量" class="headerlink" title="自定义系统环境变量"></a>自定义系统环境变量</h4><p>当前用户进入Shell环境初始化的时候，会加载全局配置文件**/etc/profile**里面的环境变量, 供给所有Shell程序使用，以后只要是所有Shell程序或命令使用的变量, 就可以定义在这个文件中。</p>
+<p>(1)重新加载/etc/profile文件数据更新系统环境变量</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="Shell字符串变量"><a href="#Shell字符串变量" class="headerlink" title="Shell字符串变量"></a>Shell字符串变量</h4><p><strong>(1)使用单引号</strong></p>
+<p>任何字符都会原样输出，不会去解析变量。</p>
+<p><strong>(2)使用双引号</strong></p>
+<p>包含了变量，那么该变量会被解析得到值，而不是原样输出。</p>
+<p><strong>(3)不使用引号</strong></p>
+<p>不被引号包围的字符串中出现变量时也会被解析，这一点和双引号<code>&quot; &quot;</code>包围的字符串一样。</p>
+<p>但是字符串中不能出现空格，否则空格后边的字符串会作为其他命令解析。</p>
+<p><strong>获取字符串长度：</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">&#123;#字符串变量名&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="拼接"><a href="#拼接" class="headerlink" title="拼接"></a>拼接</h5><p>(1)无符号拼接</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">echo $&#123;var1&#125;$&#123;var2&#125;</span><br></pre></td></tr></table></figure>
+
+<p>(2)双引号拼接</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">echo &quot;$&#123;var1&#125;$&#123;var2&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+<p>(3)混合拼接</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">echo $&#123;var1&#125;&quot;&amp;&quot;$&#123;var2&#125;</span><br><span class="line">echo $&#123;var1&#125;&#x27;&amp;&#x27;$&#123;var2&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="截取"><a href="#截取" class="headerlink" title="截取"></a>截取</h5><table>
+<thead>
+<tr>
+<th>格式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>${变量名:start:length}</td>
+<td>从 string 字符串的左边第 start 个字符开始，向右截取 length 个字符。start从0开始</td>
+</tr>
+<tr>
+<td>${变量名:start}</td>
+<td>从 string 字符串的左边第 start 个字符开始截取，直到最后。</td>
+</tr>
+<tr>
+<td>${变量名:0-start:length}</td>
+<td>从 string 字符串的右边第 start 个字符开始，向右截取 length 个字符。start从1开始, 代表右侧第一个字符</td>
+</tr>
+<tr>
+<td>${变量名:0-start}</td>
+<td>从 string 字符串的右边第 start 个字符开始截取，直到最后。</td>
+</tr>
+<tr>
+<td>${变量名#*chars}</td>
+<td>从 string 字符串左边第一次出现 *chars 的位置开始，截取 *chars 右边的所有字符。</td>
+</tr>
+<tr>
+<td>${变量名##*chars}</td>
+<td>从 string 字符串左边最后一次出现 *chars 的位置开始，截取 *chars 右边的所有字符。</td>
+</tr>
+<tr>
+<td>${变量名%chars*}</td>
+<td>从 string 字符串右边第一次出现 chars* 的位置开始，截取 chars* 左边的所有字符。</td>
+</tr>
+<tr>
+<td>${变量名%%chars*}</td>
+<td>从 string 字符串右边最后一次出现 chars* 的位置开始，截取 chars* 左边的所有字符</td>
+</tr>
+</tbody></table>
+<h4 id="Shell数组"><a href="#Shell数组" class="headerlink" title="Shell数组"></a>Shell数组</h4><p><strong>定义</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">array_name=(item1  item2 ...)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">array_name=([索引下标1]=item1  [索引下标2]=item2  ...) </span><br></pre></td></tr></table></figure>
+
+<p>注意：等号两边不能有空格</p>
+<p>Shell 是弱类型的，它并不要求所有数组元素的类型必须相同</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">arr=(20 56 &quot;http://www.itcast.cn/&quot;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>获取</strong></p>
+<p>1.通过下标获取元素值,index从0开始</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">&#123;arr[index]&#125;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意使用<code>&#123; &#125;</code></p>
+</blockquote>
+<p>2.获取值同时复制给其他变量</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">item=$&#123;arr[index]&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3.使用 <code>@</code> 或 <code>*</code> 可以获取数组中的所有元素</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">&#123;arr[@]&#125;</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">&#123;arr[*]&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>4.获取数组的长度或个数</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">&#123;#arr[@]&#125;</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">&#123;#arr[*]&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>5.获取数组指定元素的字符长度</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">&#123;#arr[索引]&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>拼接</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">array_new=($&#123;array1[@]&#125; $&#123;array2[@]&#125; ...)</span><br><span class="line">array_new=($&#123;array1[*]&#125; $&#123;array2[*]&#125; ...)</span><br></pre></td></tr></table></figure>
+
+<p><strong>删除</strong></p>
+<p>删除数组指定元素数据</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">unset array_name[index]</span><br></pre></td></tr></table></figure>
+
+<p>删除整个数组</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">unset array_name</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="Shell内置命令"><a href="#Shell内置命令" class="headerlink" title="Shell内置命令"></a>Shell内置命令</h4><p>使用type 来确定一个命令是否是内置命令：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">type 命令</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://code-ran.github.io">牛牛</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://code-ran.github.io/2025/04/11/shell%E5%AD%A6%E4%B9%A0/">https://code-ran.github.io/2025/04/11/shell%E5%AD%A6%E4%B9%A0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://code-ran.github.io" target="_blank">牛牛&blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/shell%E5%AD%A6%E4%B9%A0/">shell学习</a></div><div class="post_share"><div class="social-share" data-image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/11/20/ubuntu%E5%AE%89%E8%A3%85docker/"><img class="prev-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">ubuntu安装docker</div></div></a></div><div class="next-post pull-right"><a href="/2025/03/05/nacos%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/"><img class="next-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">nacos集群搭建</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/ys.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">牛牛</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">70</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">44</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">37</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/code-ran"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">本blog内容仅用于个人学习使用!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Shell%E7%BC%96%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">Shell编程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#shell%E8%84%9A%E6%9C%AC%E7%BC%96%E5%86%99%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text">shell脚本编写格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#shell%E8%84%9A%E6%9C%AC%E6%89%A7%E8%A1%8C%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text">shell脚本执行方式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#sh%E8%A7%A3%E9%87%8A%E5%99%A8%E6%89%A7%E8%A1%8C"><span class="toc-number">1.2.1.</span> <span class="toc-text">sh解释器执行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#bash%E8%A7%A3%E9%87%8A%E5%99%A8%E6%89%A7%E8%A1%8C"><span class="toc-number">1.2.2.</span> <span class="toc-text">bash解释器执行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%85%E8%B7%AF%E5%BE%84%E6%89%A7%E8%A1%8C"><span class="toc-number">1.2.3.</span> <span class="toc-text">仅路径执行</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Shell%E5%8F%98%E9%87%8F"><span class="toc-number">1.3.</span> <span class="toc-text">Shell变量</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">1.3.1.</span> <span class="toc-text">系统环境变量</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">常用系统环境变量</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F"><span class="toc-number">1.3.2.</span> <span class="toc-text">自定义变量</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">自定义局部变量</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B8%B8%E9%87%8F"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">自定义常量</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">自定义全局变量</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%89%B9%E6%AE%8A%E5%8F%98%E9%87%8F"><span class="toc-number">1.3.3.</span> <span class="toc-text">特殊变量</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">1.4.</span> <span class="toc-text">自定义系统环境变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Shell%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%98%E9%87%8F"><span class="toc-number">1.5.</span> <span class="toc-text">Shell字符串变量</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8B%BC%E6%8E%A5"><span class="toc-number">1.5.1.</span> <span class="toc-text">拼接</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%88%AA%E5%8F%96"><span class="toc-number">1.5.2.</span> <span class="toc-text">截取</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Shell%E6%95%B0%E7%BB%84"><span class="toc-number">1.6.</span> <span class="toc-text">Shell数组</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Shell%E5%86%85%E7%BD%AE%E5%91%BD%E4%BB%A4"><span class="toc-number">1.7.</span> <span class="toc-text">Shell内置命令</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/11/20/docker%E5%AD%A6%E4%B9%A0/" title="docker学习">docker学习</a><time datetime="2025-11-20T15:40:19.000Z" title="发表于 2025-11-20 23:40:19">2025-11-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/11/20/ubuntu%E5%AE%89%E8%A3%85docker/" title="ubuntu安装docker">ubuntu安装docker</a><time datetime="2025-11-20T15:35:49.000Z" title="发表于 2025-11-20 23:35:49">2025-11-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/11/shell%E5%AD%A6%E4%B9%A0/" title="shell学习">shell学习</a><time datetime="2025-04-11T07:07:44.000Z" title="发表于 2025-04-11 15:07:44">2025-04-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/03/05/nacos%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/" title="nacos集群搭建">nacos集群搭建</a><time datetime="2025-03-05T15:49:49.000Z" title="发表于 2025-03-05 23:49:49">2025-03-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/02/19/%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2deepseek/" title="本地部署deepseek">本地部署deepseek</a><time datetime="2025-02-19T15:41:15.000Z" title="发表于 2025-02-19 23:41:15">2025-02-19</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2025 By 牛牛</div><div class="footer_custom_text">Hi, Welcome to my blog!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">簡</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
